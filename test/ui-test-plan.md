@@ -208,6 +208,167 @@ __  ___            ______     _
 
 Hi! I'm XiaoZhi.
 What's the task for today?
-Sorry, I don't recognise that command: foobar
+OOPS!!! I don't recognise that command: foobar
+Bye, See you soon!
+```
+
+## Test 8: Empty todo description
+
+**Aim:** Verify `todo` with nothing after it is reported as an error
+instead of crashing or being silently added, per the `A-Exceptions`
+requirement to handle a bare `todo`.
+
+**Input:**
+```
+todo
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! The description of a todo cannot be empty.
+Bye, See you soon!
+```
+
+## Test 9: Deadline missing /by
+
+**Aim:** Verify a `deadline` command with no `/by` marker is reported as
+an error, rather than swallowing the whole line as the description (as it
+did before A-Exceptions was implemented).
+
+**Input:**
+```
+deadline return book
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! A deadline needs a /by date. Try: deadline <description> /by <date>
+Bye, See you soon!
+```
+
+## Test 10: Event missing /from
+
+**Aim:** Verify an `event` command with no `/from` marker is reported as
+an error.
+
+**Input:**
+```
+event project meeting
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! An event needs a /from time. Try: event <description> /from <start> /to <end>
+Bye, See you soon!
+```
+
+## Test 11: Event missing /to
+
+**Aim:** Verify an `event` command with `/from` but no `/to` marker is
+reported as an error.
+
+**Input:**
+```
+event project meeting /from Mon 2pm
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! An event needs a /to time. Try: event <description> /from <start> /to <end>
+Bye, See you soon!
+```
+
+## Test 12: Mark with an out-of-range task number
+
+**Aim:** Verify `mark <n>` with an `n` beyond the current task count is
+reported as an error instead of throwing an uncaught
+`NullPointerException`.
+
+**Input:**
+```
+todo read book
+mark 5
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+OOPS!!! Task 5 doesn't exist. You have 1 task(s).
+Bye, See you soon!
+```
+
+## Test 13: Mark with a non-numeric task number
+
+**Aim:** Verify `mark <n>` with a non-numeric `n` is reported as an error
+instead of throwing an uncaught `NumberFormatException`.
+
+**Input:**
+```
+todo read book
+mark abc
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+OOPS!!! "abc" isn't a valid task number.
 Bye, See you soon!
 ```
