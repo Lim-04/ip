@@ -40,22 +40,35 @@ public class XiaoZhi {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
+    // The set of commands XiaoZhi understands
+    private enum Command {
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, UNKNOWN
+    }
+
     private static void store() {
         ArrayList<Task> taskList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         while (!input.equals("bye")) {
-            String command = input.split(" ")[0]; // To know what this input is supposed to do
+            String commandWord = input.split(" ")[0]; // To know what this input is supposed to do
+            Command command;
+            try {
+                command = Command.valueOf(commandWord.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                command = Command.UNKNOWN;
+            }
 
             try {
-                if (input.equals("list")) {
+                switch (command) {
+                case LIST -> {
                     System.out.println("Tasks for today:");
                     for (int i = 0; i < taskList.size(); i++) {
                         System.out.println((i + 1) + "." + taskList.get(i));
                     }
+                }
 
-                } else if (command.equals("mark")) {
+                case MARK -> {
                     String[] tokens = input.split(" ");
                     if (tokens.length < 2) {
                         throw new XiaoZhiException("Please specify which task number to mark.");
@@ -72,8 +85,9 @@ public class XiaoZhi {
                     }
                     taskList.get(targetIndex).markAsDone();
                     System.out.println("Roger! I've marked it as done: \n  " + taskList.get(targetIndex));
+                }
 
-                } else if (command.equals("unmark")) {
+                case UNMARK -> {
                     String[] tokens = input.split(" ");
                     if (tokens.length < 2) {
                         throw new XiaoZhiException("Please specify which task number to unmark.");
@@ -90,8 +104,9 @@ public class XiaoZhi {
                     }
                     taskList.get(targetIndex).markAsNotDone();
                     System.out.println("Okay, I've unmarked this: \n  " + taskList.get(targetIndex));
+                }
 
-                } else if (command.equals("delete")) {
+                case DELETE -> {
                     String[] tokens = input.split(" ");
                     if (tokens.length < 2) {
                         throw new XiaoZhiException("Please specify which task number to delete.");
@@ -108,8 +123,9 @@ public class XiaoZhi {
                     }
                     Task removedTask = taskList.remove(targetIndex);
                     printRemoved(removedTask, taskList.size());
+                }
 
-                } else if (command.equals("todo")) {
+                case TODO -> {
                     String description = input.length() > "todo ".length()
                             ? input.substring("todo ".length()) : ""; // description after the command word
                     if (description.isBlank()) {
@@ -118,8 +134,9 @@ public class XiaoZhi {
                     Todo newTask = new Todo(description);
                     taskList.add(newTask);
                     printAdded(newTask, taskList.size());
+                }
 
-                } else if (command.equals("deadline")) {
+                case DEADLINE -> {
                     String rest = input.length() > "deadline ".length()
                             ? input.substring("deadline ".length()) : ""; // removing the command from the input
                     if (rest.isBlank()) {
@@ -140,8 +157,9 @@ public class XiaoZhi {
                     Deadline newTask = new Deadline(parts[0].trim(), parts[1].trim());
                     taskList.add(newTask);
                     printAdded(newTask, taskList.size());
+                }
 
-                } else if (command.equals("event")) {
+                case EVENT -> {
                     String rest = input.length() > "event ".length()
                             ? input.substring("event ".length()) : "";
                     if (rest.isBlank()) {
@@ -171,9 +189,9 @@ public class XiaoZhi {
                     Event newTask = new Event(fromParts[0].trim(), toParts[0].trim(), toParts[1].trim());
                     taskList.add(newTask);
                     printAdded(newTask, taskList.size());
+                }
 
-                } else {
-                    throw new XiaoZhiException("I don't recognise that command: " + command);
+                case UNKNOWN -> throw new XiaoZhiException("I don't recognise that command: " + commandWord);
                 }
             } catch (XiaoZhiException e) {
                 System.out.println("OOPS!!! " + e.getMessage());

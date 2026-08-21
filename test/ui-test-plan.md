@@ -403,7 +403,7 @@ Now you have 1 tasks in the list.
 Got it. I've added this task:
   [D][ ] return book (by: Sunday)
 Now you have 2 tasks in the list.
-Got it, I've removed this task:
+Got it, I've deleted this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
 Tasks for today:
