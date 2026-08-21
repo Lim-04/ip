@@ -1,7 +1,10 @@
+import java.util.Scanner;
+
 public class XiaoZhi {
     public static void main(String[] args) {
       printBanner();
       printGreet();
+      echo();
       printFarewell();
     }
 
@@ -22,5 +25,15 @@ public class XiaoZhi {
 
     private static void printFarewell() {
         System.out.println("Bye, See you soon!");
+    }
+
+    private static void echo() {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        while (!input.equals("bye")) {
+            System.out.println(input);
+            input = scanner.nextLine();
+        }
     }
 }
