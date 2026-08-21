@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class XiaoZhi {
     public static void main(String[] args) {
@@ -34,8 +35,7 @@ public class XiaoZhi {
     }
 
     private static void store() {
-        int currIndex = 0;
-        Task[] taskList = new Task[100];
+        ArrayList<Task> taskList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
@@ -45,8 +45,8 @@ public class XiaoZhi {
             try {
                 if (input.equals("list")) {
                     System.out.println("Tasks for today:");
-                    for (int i = 0; i < currIndex; i++) {
-                        System.out.println((i + 1) + "." + taskList[i]);
+                    for (int i = 0; i < taskList.size(); i++) {
+                        System.out.println((i + 1) + "." + taskList.get(i));
                     }
 
                 } else if (command.equals("mark")) {
@@ -60,12 +60,12 @@ public class XiaoZhi {
                     } catch (NumberFormatException e) {
                         throw new XiaoZhiException("\"" + tokens[1] + "\" isn't a valid task number.");
                     }
-                    if (targetIndex < 0 || targetIndex >= currIndex) {
+                    if (targetIndex < 0 || targetIndex >= taskList.size()) {
                         throw new XiaoZhiException(
-                                "Task " + (targetIndex + 1) + " doesn't exist. You have " + currIndex + " task(s).");
+                                "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
                     }
-                    taskList[targetIndex].markAsDone();
-                    System.out.println("Roger! I've marked it as done: \n  " + taskList[targetIndex]);
+                    taskList.get(targetIndex).markAsDone();
+                    System.out.println("Roger! I've marked it as done: \n  " + taskList.get(targetIndex));
 
                 } else if (command.equals("unmark")) {
                     String[] tokens = input.split(" ");
@@ -78,12 +78,12 @@ public class XiaoZhi {
                     } catch (NumberFormatException e) {
                         throw new XiaoZhiException("\"" + tokens[1] + "\" isn't a valid task number.");
                     }
-                    if (targetIndex < 0 || targetIndex >= currIndex) {
+                    if (targetIndex < 0 || targetIndex >= taskList.size()) {
                         throw new XiaoZhiException(
-                                "Task " + (targetIndex + 1) + " doesn't exist. You have " + currIndex + " task(s).");
+                                "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
                     }
-                    taskList[targetIndex].markAsNotDone();
-                    System.out.println("Okay, I've unmarked this: \n  " + taskList[targetIndex]);
+                    taskList.get(targetIndex).markAsNotDone();
+                    System.out.println("Okay, I've unmarked this: \n  " + taskList.get(targetIndex));
 
                 } else if (command.equals("todo")) {
                     String description = input.length() > "todo ".length()
@@ -91,9 +91,9 @@ public class XiaoZhi {
                     if (description.isBlank()) {
                         throw new XiaoZhiException("The description of a todo cannot be empty.");
                     }
-                    taskList[currIndex] = new Todo(description);
-                    currIndex++;
-                    printAdded(taskList[currIndex - 1], currIndex);
+                    Todo newTask = new Todo(description);
+                    taskList.add(newTask);
+                    printAdded(newTask, taskList.size());
 
                 } else if (command.equals("deadline")) {
                     String rest = input.length() > "deadline ".length()
@@ -113,9 +113,9 @@ public class XiaoZhi {
                     if (parts[1].isBlank()) {
                         throw new XiaoZhiException("The /by date of a deadline cannot be empty.");
                     }
-                    taskList[currIndex] = new Deadline(parts[0].trim(), parts[1].trim());
-                    currIndex++;
-                    printAdded(taskList[currIndex - 1], currIndex);
+                    Deadline newTask = new Deadline(parts[0].trim(), parts[1].trim());
+                    taskList.add(newTask);
+                    printAdded(newTask, taskList.size());
 
                 } else if (command.equals("event")) {
                     String rest = input.length() > "event ".length()
@@ -144,9 +144,9 @@ public class XiaoZhi {
                     if (toParts[1].isBlank()) {
                         throw new XiaoZhiException("The /to time of an event cannot be empty.");
                     }
-                    taskList[currIndex] = new Event(fromParts[0].trim(), toParts[0].trim(), toParts[1].trim());
-                    currIndex++;
-                    printAdded(taskList[currIndex - 1], currIndex);
+                    Event newTask = new Event(fromParts[0].trim(), toParts[0].trim(), toParts[1].trim());
+                    taskList.add(newTask);
+                    printAdded(newTask, taskList.size());
 
                 } else {
                     throw new XiaoZhiException("I don't recognise that command: " + command);
