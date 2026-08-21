@@ -29,7 +29,7 @@ public class XiaoZhi {
 
     private static void store() {
         int currIndex = 0;
-        String[] taskList = new String[100];
+        Task[] taskList = new Task[100];
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
@@ -37,10 +37,18 @@ public class XiaoZhi {
             if (input.equals("list")) {
                 System.out.println("Tasks for today:");
                 for (int i = 0; i < currIndex; i++) {
-                    System.out.println((i + 1) + ". " + taskList[i]);
+                    System.out.println((i + 1) + "." + taskList[i]);
                 }
+            } else if (input.split(" ")[0].equals("mark")) {
+                int targetIndex = Integer.parseInt(input.split(" ")[1]) - 1;
+                taskList[targetIndex].markAsDone();
+                System.out.println("Roger! I've marked it as done: \n  " + taskList[targetIndex]);
+            } else if (input.split(" ")[0].equals("unmark")) {
+                int targetIndex = Integer.parseInt(input.split(" ")[1]) - 1;
+                taskList[targetIndex].markAsNotDone();
+                System.out.println("Okay, I've unmarked this: \n  " + taskList[targetIndex]);
             } else {
-                taskList[currIndex] = input;
+                taskList[currIndex] = new Task(input);
                 System.out.println("Added: " + input);
                 currIndex++;
             }
