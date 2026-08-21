@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class XiaoZhi {
     public static void main(String[] args) {
-      printBanner();
-      printGreet();
-      echo();
-      printFarewell();
+        printBanner();
+        printGreet();
+        store();
+        printFarewell();
     }
 
     private static void printBanner() {
@@ -27,12 +27,23 @@ public class XiaoZhi {
         System.out.println("Bye, See you soon!");
     }
 
-    private static void echo() {
+    private static void store() {
+        int currIndex = 0;
+        String[] taskList = new String[100];
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         while (!input.equals("bye")) {
-            System.out.println(input);
+            if (input.equals("list")) {
+                System.out.println("Tasks for today:");
+                for (int i = 0; i < currIndex; i++) {
+                    System.out.println((i + 1) + ". " + taskList[i]);
+                }
+            } else {
+                taskList[currIndex] = input;
+                System.out.println("Added: " + input);
+                currIndex++;
+            }
             input = scanner.nextLine();
         }
     }
