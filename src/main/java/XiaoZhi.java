@@ -34,6 +34,12 @@ public class XiaoZhi {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
+    private static void printRemoved(Task task, int taskCount) {
+        System.out.println("Got it, I've deleted this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
+    }
+
     private static void store() {
         ArrayList<Task> taskList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -84,6 +90,24 @@ public class XiaoZhi {
                     }
                     taskList.get(targetIndex).markAsNotDone();
                     System.out.println("Okay, I've unmarked this: \n  " + taskList.get(targetIndex));
+
+                } else if (command.equals("delete")) {
+                    String[] tokens = input.split(" ");
+                    if (tokens.length < 2) {
+                        throw new XiaoZhiException("Please specify which task number to delete.");
+                    }
+                    int targetIndex;
+                    try {
+                        targetIndex = Integer.parseInt(tokens[1]) - 1; // convert to 0-based index
+                    } catch (NumberFormatException e) {
+                        throw new XiaoZhiException("\"" + tokens[1] + "\" isn't a valid task number.");
+                    }
+                    if (targetIndex < 0 || targetIndex >= taskList.size()) {
+                        throw new XiaoZhiException(
+                                "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
+                    }
+                    Task removedTask = taskList.remove(targetIndex);
+                    printRemoved(removedTask, taskList.size());
 
                 } else if (command.equals("todo")) {
                     String description = input.length() > "todo ".length()

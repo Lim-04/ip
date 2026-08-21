@@ -372,3 +372,127 @@ Now you have 1 tasks in the list.
 OOPS!!! "abc" isn't a valid task number.
 Bye, See you soon!
 ```
+
+## Test 14: Delete a task
+
+**Aim:** Verify `delete <n>` removes the right task from the list and the
+remaining tasks re-number correctly on the next `list`.
+
+**Input:**
+```
+todo read book
+deadline return book /by Sunday
+delete 1
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [D][ ] return book (by: Sunday)
+Now you have 2 tasks in the list.
+Got it, I've removed this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Tasks for today:
+1.[D][ ] return book (by: Sunday)
+Bye, See you soon!
+```
+
+## Test 15: Delete with a missing task number
+
+**Aim:** Verify `delete` with no number after it is reported as an error.
+
+**Input:**
+```
+todo read book
+delete
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+OOPS!!! Please specify which task number to delete.
+Bye, See you soon!
+```
+
+## Test 16: Delete with a non-numeric task number
+
+**Aim:** Verify `delete <n>` with a non-numeric `n` is reported as an
+error instead of throwing an uncaught `NumberFormatException`.
+
+**Input:**
+```
+todo read book
+delete abc
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+OOPS!!! "abc" isn't a valid task number.
+Bye, See you soon!
+```
+
+## Test 17: Delete with an out-of-range task number
+
+**Aim:** Verify `delete <n>` with an `n` beyond the current task count
+(including `0`) is reported as an error.
+
+**Input:**
+```
+todo read book
+delete 5
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+OOPS!!! Task 5 doesn't exist. You have 1 task(s).
+Bye, See you soon!
+```
