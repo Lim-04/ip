@@ -155,7 +155,7 @@ public class XiaoZhi {
                     if (parts[1].isBlank()) {
                         throw new XiaoZhiException("The /by date of a deadline cannot be empty.");
                     }
-                    Deadline newTask = new Deadline(parts[0].trim(), parts[1].trim());
+                    Deadline newTask = new Deadline(parts[0].trim(), Dates.parse(parts[1].trim()));
                     taskList.add(newTask);
                     printAdded(newTask, taskList.size());
                 }
@@ -187,7 +187,8 @@ public class XiaoZhi {
                     if (toParts[1].isBlank()) {
                         throw new XiaoZhiException("The /to time of an event cannot be empty.");
                     }
-                    Event newTask = new Event(fromParts[0].trim(), toParts[0].trim(), toParts[1].trim());
+                    Event newTask = new Event(fromParts[0].trim(),
+                            Dates.parse(toParts[0].trim()), Dates.parse(toParts[1].trim()));
                     taskList.add(newTask);
                     printAdded(newTask, taskList.size());
                 }

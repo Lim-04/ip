@@ -66,7 +66,7 @@ it as `(by: ...)` with the `[D]` tag.
 
 **Input:**
 ```
-deadline return book /by Sunday
+deadline return book /by 2019-12-02
 bye
 ```
 
@@ -81,7 +81,7 @@ __  ___            ______     _
 Hi! I'm XiaoZhi.
 What's the task for today?
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Dec 02 2019)
 Now you have 1 tasks in the list.
 Bye, See you soon!
 ```
@@ -93,7 +93,7 @@ portions and shows them as `(from: ... to: ...)` with the `[E]` tag.
 
 **Input:**
 ```
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2019-08-06 /to 2019-08-07
 bye
 ```
 
@@ -108,7 +108,7 @@ __  ___            ______     _
 Hi! I'm XiaoZhi.
 What's the task for today?
 Got it. I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
 Now you have 1 tasks in the list.
 Bye, See you soon!
 ```
@@ -121,8 +121,8 @@ rendered with its own type's format, in the order they were added.
 **Input:**
 ```
 todo read book
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
+deadline return book /by 2019-12-02
+event project meeting /from 2019-08-06 /to 2019-08-07
 list
 bye
 ```
@@ -141,15 +141,15 @@ Got it. I've added this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Dec 02 2019)
 Now you have 2 tasks in the list.
 Got it. I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+  [E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
 Now you have 3 tasks in the list.
 Tasks for today:
 1.[T][ ] read book
-2.[D][ ] return book (by: Sunday)
-3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+2.[D][ ] return book (by: Dec 02 2019)
+3.[E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
 Bye, See you soon!
 ```
 
@@ -381,7 +381,7 @@ remaining tasks re-number correctly on the next `list`.
 **Input:**
 ```
 todo read book
-deadline return book /by Sunday
+deadline return book /by 2019-12-02
 delete 1
 list
 bye
@@ -401,13 +401,13 @@ Got it. I've added this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Dec 02 2019)
 Now you have 2 tasks in the list.
 Got it, I've deleted this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
 Tasks for today:
-1.[D][ ] return book (by: Sunday)
+1.[D][ ] return book (by: Dec 02 2019)
 Bye, See you soon!
 ```
 
@@ -494,5 +494,55 @@ Got it. I've added this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
 OOPS!!! Task 5 doesn't exist. You have 1 task(s).
+Bye, See you soon!
+```
+
+## Test 18: Deadline with an invalid date
+
+**Aim:** Verify a `deadline` command whose `/by` value isn't a valid
+`yyyy-mm-dd` date is reported as an error instead of being stored as-is.
+
+**Input:**
+```
+deadline return book /by tomorrow
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
+Bye, See you soon!
+```
+
+## Test 19: Event with an invalid date
+
+**Aim:** Verify an `event` command whose `/from` value isn't a valid
+`yyyy-mm-dd` date is reported as an error instead of being stored as-is.
+
+**Input:**
+```
+event project meeting /from tomorrow /to 2019-08-07
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
 Bye, See you soon!
 ```
