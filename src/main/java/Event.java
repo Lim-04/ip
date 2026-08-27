@@ -9,6 +9,16 @@ public class Event extends Task {
     }
 
     @Override
+    public String getTypeIcon() {
+        return "E";
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + from + " | " + to;
+    }
+
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }

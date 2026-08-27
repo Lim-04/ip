@@ -46,7 +46,8 @@ public class XiaoZhi {
     }
 
     private static void store() {
-        ArrayList<Task> taskList = new ArrayList<>();
+        Storage storage = new Storage("./data/xiaozhi.txt");
+        ArrayList<Task> taskList = storage.load();
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
@@ -193,6 +194,7 @@ public class XiaoZhi {
 
                 case UNKNOWN -> throw new XiaoZhiException("I don't recognise that command: " + commandWord);
                 }
+                storage.save(taskList);
             } catch (XiaoZhiException e) {
                 System.out.println("OOPS!!! " + e.getMessage());
             }
