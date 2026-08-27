@@ -1,43 +1,12 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class XiaoZhi {
     public static void main(String[] args) {
-        printBanner();
-        printGreet();
-        store();
-        printFarewell();
-    }
-
-    private static void printBanner() {
-        String banner = """
-            __  ___            ______     _ 
-            \\ \\/ (_) __ _  ___|__  / |__ (_)
-             \\  /| |/ _` |/ _ \\ / /| '_ \\| |
-             /  \\| | (_| | (_) / /_| | | | |
-            /_/\\_\\_|\\__,_|\\___/____|_| |_|_|
-            """;
-        System.out.println(banner);
-    }
-
-    private static void printGreet() {
-        System.out.println("Hi! I'm XiaoZhi.\nWhat's the task for today?");
-    }
-
-    private static void printFarewell() {
-        System.out.println("Bye, See you soon!");
-    }
-
-    private static void printAdded(Task task, int taskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
-    }
-
-    private static void printRemoved(Task task, int taskCount) {
-        System.out.println("Got it, I've deleted this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        Ui ui = new Ui();
+        ui.showBanner();
+        ui.showGreeting();
+        store(ui);
+        ui.showFarewell();
     }
 
     // The set of commands XiaoZhi understands
@@ -45,11 +14,10 @@ public class XiaoZhi {
         LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, UNKNOWN
     }
 
-    private static void store() {
+    private static void store(Ui ui) {
         Storage storage = new Storage("./data/xiaozhi.txt");
         ArrayList<Task> taskList = storage.load();
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String input = ui.readCommand();
 
         while (!input.equals("bye")) {
             String commandWord = input.split(" ")[0]; // To know what this input is supposed to do
@@ -62,12 +30,7 @@ public class XiaoZhi {
 
             try {
                 switch (command) {
-                case LIST -> {
-                    System.out.println("Tasks for today:");
-                    for (int i = 0; i < taskList.size(); i++) {
-                        System.out.println((i + 1) + "." + taskList.get(i));
-                    }
-                }
+                case LIST -> ui.showList(taskList);
 
                 case MARK -> {
                     String[] tokens = input.split(" ");
@@ -85,7 +48,7 @@ public class XiaoZhi {
                                 "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
                     }
                     taskList.get(targetIndex).markAsDone();
-                    System.out.println("Roger! I've marked it as done: \n  " + taskList.get(targetIndex));
+                    ui.showMarked(taskList.get(targetIndex));
                 }
 
                 case UNMARK -> {
@@ -104,7 +67,7 @@ public class XiaoZhi {
                                 "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
                     }
                     taskList.get(targetIndex).markAsNotDone();
-                    System.out.println("Okay, I've unmarked this: \n  " + taskList.get(targetIndex));
+                    ui.showUnmarked(taskList.get(targetIndex));
                 }
 
                 case DELETE -> {
@@ -123,7 +86,7 @@ public class XiaoZhi {
                                 "Task " + (targetIndex + 1) + " doesn't exist. You have " + taskList.size() + " task(s).");
                     }
                     Task removedTask = taskList.remove(targetIndex);
-                    printRemoved(removedTask, taskList.size());
+                    ui.showRemoved(removedTask, taskList.size());
                 }
 
                 case TODO -> {
@@ -134,7 +97,7 @@ public class XiaoZhi {
                     }
                     Todo newTask = new Todo(description);
                     taskList.add(newTask);
-                    printAdded(newTask, taskList.size());
+                    ui.showAdded(newTask, taskList.size());
                 }
 
                 case DEADLINE -> {
@@ -157,7 +120,7 @@ public class XiaoZhi {
                     }
                     Deadline newTask = new Deadline(parts[0].trim(), Dates.parse(parts[1].trim()));
                     taskList.add(newTask);
-                    printAdded(newTask, taskList.size());
+                    ui.showAdded(newTask, taskList.size());
                 }
 
                 case EVENT -> {
@@ -190,17 +153,17 @@ public class XiaoZhi {
                     Event newTask = new Event(fromParts[0].trim(),
                             Dates.parse(toParts[0].trim()), Dates.parse(toParts[1].trim()));
                     taskList.add(newTask);
-                    printAdded(newTask, taskList.size());
+                    ui.showAdded(newTask, taskList.size());
                 }
 
                 case UNKNOWN -> throw new XiaoZhiException("I don't recognise that command: " + commandWord);
                 }
                 storage.save(taskList);
             } catch (XiaoZhiException e) {
-                System.out.println("OOPS!!! " + e.getMessage());
+                ui.showError(e.getMessage());
             }
 
-            input = scanner.nextLine();
+            input = ui.readCommand();
         }
     }
 }
