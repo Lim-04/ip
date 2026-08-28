@@ -1,3 +1,5 @@
+package xiaozhi.task;
+
 /**
  * Represents a task that XiaoZhi keeps track of.
  * <p>

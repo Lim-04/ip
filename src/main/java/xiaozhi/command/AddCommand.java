@@ -1,3 +1,10 @@
+package xiaozhi.command;
+
+import xiaozhi.storage.Storage;
+import xiaozhi.task.Task;
+import xiaozhi.task.TaskList;
+import xiaozhi.ui.Ui;
+
 public class AddCommand extends Command {
     private final Task task;
 

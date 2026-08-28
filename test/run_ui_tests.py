@@ -41,7 +41,7 @@ TEST_PATTERN = re.compile(
 
 def compile_program():
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
-    java_files = sorted(str(p) for p in SRC_DIR.glob("*.java"))
+    java_files = sorted(str(p) for p in SRC_DIR.glob("**/*.java"))
     if not java_files:
         print(f"No .java files found under {SRC_DIR}")
         sys.exit(1)
@@ -81,7 +81,7 @@ def parse_test_plan():
 
 def run_test(test):
     proc = subprocess.run(
-        ["java", "-cp", str(BUILD_DIR), "XiaoZhi"],
+        ["java", "-cp", str(BUILD_DIR), "xiaozhi.XiaoZhi"],
         input=test["input"] + "\n",
         capture_output=True,
         text=True,
