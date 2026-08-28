@@ -107,20 +107,20 @@ public class Storage {
         String description = parts[2].trim();
 
         Task task = switch (type) {
-        case "T" -> new Todo(description);
-        case "D" -> {
-            if (parts.length < 4) {
-                throw new XiaoZhiException("Deadline is missing its /by field.");
+            case "T" -> new Todo(description);
+            case "D" -> {
+                if (parts.length < 4) {
+                    throw new XiaoZhiException("Deadline is missing its /by field.");
+                }
+                yield new Deadline(description, Dates.parse(parts[3].trim()));
             }
-            yield new Deadline(description, Dates.parse(parts[3].trim()));
-        }
-        case "E" -> {
-            if (parts.length < 5) {
-                throw new XiaoZhiException("Event is missing its /from or /to field.");
+            case "E" -> {
+                if (parts.length < 5) {
+                    throw new XiaoZhiException("Event is missing its /from or /to field.");
+                }
+                yield new Event(description, Dates.parse(parts[3].trim()), Dates.parse(parts[4].trim()));
             }
-            yield new Event(description, Dates.parse(parts[3].trim()), Dates.parse(parts[4].trim()));
-        }
-        default -> throw new XiaoZhiException("Unknown task type: " + type);
+            default -> throw new XiaoZhiException("Unknown task type: " + type);
         };
 
         if (isDone) {
