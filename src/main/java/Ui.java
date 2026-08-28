@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {
@@ -51,7 +50,7 @@ public class Ui {
         System.out.println("Okay, I've unmarked this: \n  " + task);
     }
 
-    public void showList(ArrayList<Task> tasks) {
+    public void showList(TaskList tasks) {
         System.out.println("Tasks for today:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
