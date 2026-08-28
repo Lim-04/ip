@@ -546,3 +546,126 @@ What's the task for today?
 OOPS!!! "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
 Bye, See you soon!
 ```
+
+## Test 20: Find matches across task types
+
+**Aim:** Verify `find` returns every task (todo, deadline, event alike)
+whose description contains the keyword, numbered from 1 in their original
+order, and leaves tasks that don't match out.
+
+**Input:**
+```
+todo read book
+deadline return book /by 2019-06-06
+event project meeting /from 2019-08-06 /to 2019-08-06
+find book
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [D][ ] return book (by: Jun 06 2019)
+Now you have 2 tasks in the list.
+Got it. I've added this task:
+  [E][ ] project meeting (from: Aug 06 2019 to: Aug 06 2019)
+Now you have 3 tasks in the list.
+Here are the matching tasks in your list:
+1.[T][ ] read book
+2.[D][ ] return book (by: Jun 06 2019)
+Bye, See you soon!
+```
+
+## Test 21: Find with no matches
+
+**Aim:** Verify `find` prints just the heading, with no task lines, when no
+task's description contains the keyword.
+
+**Input:**
+```
+todo read book
+find homework
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Here are the matching tasks in your list:
+Bye, See you soon!
+```
+
+## Test 22: Find is case-insensitive
+
+**Aim:** Verify `find` matches a keyword regardless of case.
+
+**Input:**
+```
+todo Read Book
+find READ
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] Read Book
+Now you have 1 tasks in the list.
+Here are the matching tasks in your list:
+1.[T][ ] Read Book
+Bye, See you soon!
+```
+
+## Test 23: Find with an empty keyword
+
+**Aim:** Verify a bare `find` command with no keyword is reported as an
+error instead of matching (or failing to match) every task.
+
+**Input:**
+```
+find
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! Please specify a keyword to search for.
+Bye, See you soon!
+```

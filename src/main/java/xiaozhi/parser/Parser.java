@@ -4,6 +4,7 @@ import xiaozhi.command.AddCommand;
 import xiaozhi.command.Command;
 import xiaozhi.command.DeleteCommand;
 import xiaozhi.command.ExitCommand;
+import xiaozhi.command.FindCommand;
 import xiaozhi.command.ListCommand;
 import xiaozhi.command.MarkCommand;
 import xiaozhi.command.UnmarkCommand;
@@ -24,7 +25,7 @@ import xiaozhi.util.Dates;
 public class Parser {
     // The set of command words XiaoZhi understands
     private enum CommandWord {
-        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, BYE, UNKNOWN
+        LIST, MARK, UNMARK, DELETE, FIND, TODO, DEADLINE, EVENT, BYE, UNKNOWN
     }
 
     private Parser() {
@@ -91,6 +92,16 @@ public class Parser {
                     throw new XiaoZhiException("\"" + tokens[1] + "\" isn't a valid task number.");
                 }
                 yield new DeleteCommand(targetIndex);
+            }
+
+            case FIND -> {
+                String keyword = fullCommand.length() > "find ".length()
+                        ? fullCommand.substring("find ".length())
+                        : "";
+                if (keyword.isBlank()) {
+                    throw new XiaoZhiException("Please specify a keyword to search for.");
+                }
+                yield new FindCommand(keyword);
             }
 
             case TODO -> {
