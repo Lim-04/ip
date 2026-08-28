@@ -4,10 +4,20 @@ import java.time.LocalDate;
 
 import xiaozhi.util.Dates;
 
+/**
+ * A task that spans from one date to another.
+ */
 public class Event extends Task {
     protected LocalDate from;
     protected LocalDate to;
 
+    /**
+     * Creates an event spanning the given dates.
+     *
+     * @param description What the event is.
+     * @param from Date the event starts.
+     * @param to Date the event ends.
+     */
     public Event(String description, LocalDate from, LocalDate to) {
         super(description);
         this.from = from;
