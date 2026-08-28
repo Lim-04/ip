@@ -1,5 +1,6 @@
 package xiaozhi.ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import xiaozhi.task.Task;
@@ -110,6 +111,19 @@ public class Ui {
         System.out.println("Tasks for today:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Prints every task in {@code matches}, numbered from 1, under a heading
+     * announcing they are the tasks that matched a find search.
+     *
+     * @param matches The matching tasks to show.
+     */
+    public void showFound(ArrayList<Task> matches) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println((i + 1) + "." + matches.get(i));
         }
     }
 

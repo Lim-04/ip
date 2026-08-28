@@ -37,6 +37,15 @@ public abstract class Task {
     public abstract String getTypeIcon();
 
     /**
+     * Returns this task's description.
+     *
+     * @return The description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Marks this task as done.
      */
     public void markAsDone() {
