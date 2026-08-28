@@ -1,3 +1,12 @@
+package xiaozhi;
+
+import xiaozhi.command.Command;
+import xiaozhi.exception.XiaoZhiException;
+import xiaozhi.parser.Parser;
+import xiaozhi.storage.Storage;
+import xiaozhi.task.TaskList;
+import xiaozhi.ui.Ui;
+
 public class XiaoZhi {
     private final Ui ui;
     private final Storage storage;

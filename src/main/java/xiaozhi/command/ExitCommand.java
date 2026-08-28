@@ -1,3 +1,9 @@
+package xiaozhi.command;
+
+import xiaozhi.storage.Storage;
+import xiaozhi.task.TaskList;
+import xiaozhi.ui.Ui;
+
 public class ExitCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {

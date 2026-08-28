@@ -1,3 +1,11 @@
+package xiaozhi.command;
+
+import xiaozhi.exception.XiaoZhiException;
+import xiaozhi.storage.Storage;
+import xiaozhi.task.Task;
+import xiaozhi.task.TaskList;
+import xiaozhi.ui.Ui;
+
 public class DeleteCommand extends Command {
     private final int targetIndex;
 

@@ -1,4 +1,9 @@
+package xiaozhi.ui;
+
 import java.util.Scanner;
+
+import xiaozhi.task.Task;
+import xiaozhi.task.TaskList;
 
 public class Ui {
     private final Scanner scanner;

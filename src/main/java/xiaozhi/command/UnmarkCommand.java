@@ -1,3 +1,10 @@
+package xiaozhi.command;
+
+import xiaozhi.exception.XiaoZhiException;
+import xiaozhi.storage.Storage;
+import xiaozhi.task.TaskList;
+import xiaozhi.ui.Ui;
+
 public class UnmarkCommand extends Command {
     private final int targetIndex;
 
