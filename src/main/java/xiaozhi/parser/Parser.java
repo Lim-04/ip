@@ -13,6 +13,14 @@ import xiaozhi.task.Event;
 import xiaozhi.task.Todo;
 import xiaozhi.util.Dates;
 
+/**
+ * Turns one line of raw user input into a {@link Command}.
+ * <p>
+ * Only checks that a command is syntactically well-formed (e.g. that a
+ * deadline has a {@code /by} date, or that a task number is a number at
+ * all); whether that task number actually exists is left to the resulting
+ * command's own {@code execute()}, since only it has access to the task list.
+ */
 public class Parser {
     // The set of command words XiaoZhi understands
     private enum CommandWord {
@@ -22,6 +30,15 @@ public class Parser {
     private Parser() {
     }
 
+    /**
+     * Parses one full line of user input into the {@link Command} it represents.
+     *
+     * @param fullCommand The raw line of input the user typed.
+     * @return The command the input represents.
+     * @throws XiaoZhiException If the input is not a recognised command, or is
+     *         missing a part a recognised command requires (e.g. a task number,
+     *         or a deadline's {@code /by} date).
+     */
     public static Command parse(String fullCommand) throws XiaoZhiException {
         String commandWord = fullCommand.split(" ")[0]; // To know what this input is supposed to do
         CommandWord commandType;
