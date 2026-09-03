@@ -33,6 +33,24 @@ public class Ui {
     }
 
     /**
+     * Prints each of the given lines to the console, one per line.
+     * <p>
+     * Every other method in this class that prints more than one line
+     * (e.g. {@link #showAdded(Task, int)}) goes through this, instead of
+     * making its own sequence of {@code System.out.println} calls, so
+     * that "one line per varargs element" stays the one place that idea
+     * is expressed. Called with a {@code String[]} where the number of
+     * lines is only known at runtime, e.g. {@link #showList(TaskList)}.
+     *
+     * @param lines The lines to print, in order.
+     */
+    private void print(String... lines) {
+        for (String line : lines) {
+            System.out.println(line);
+        }
+    }
+
+    /**
      * Prints XiaoZhi's ASCII-art banner.
      */
     public void showBanner() {
@@ -43,21 +61,21 @@ public class Ui {
              /  \\| | (_| | (_) / /_| | | | |
             /_/\\_\\_|\\__,_|\\___/____|_| |_|_|
             """;
-        System.out.println(banner);
+        print(banner);
     }
 
     /**
      * Prints the greeting shown right after the banner.
      */
     public void showGreeting() {
-        System.out.println("Hi! I'm XiaoZhi.\nWhat's the task for today?");
+        print("Hi! I'm XiaoZhi.", "What's the task for today?");
     }
 
     /**
      * Prints the farewell shown once XiaoZhi's main loop ends.
      */
     public void showFarewell() {
-        System.out.println("Bye, See you soon!");
+        print("Bye, See you soon!");
     }
 
     /**
@@ -67,9 +85,9 @@ public class Ui {
      * @param taskCount The number of tasks now in the list, including this one.
      */
     public void showAdded(Task task, int taskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        print("Got it. I've added this task:",
+                "  " + task,
+                "Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -79,9 +97,9 @@ public class Ui {
      * @param taskCount The number of tasks left in the list.
      */
     public void showRemoved(Task task, int taskCount) {
-        System.out.println("Got it, I've deleted this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        print("Got it, I've deleted this task:",
+                "  " + task,
+                "Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -90,7 +108,7 @@ public class Ui {
      * @param task The task that was marked done.
      */
     public void showMarked(Task task) {
-        System.out.println("Roger! I've marked it as done: \n  " + task);
+        print("Roger! I've marked it as done:", "  " + task);
     }
 
     /**
@@ -99,7 +117,7 @@ public class Ui {
      * @param task The task that was marked not done.
      */
     public void showUnmarked(Task task) {
-        System.out.println("Okay, I've unmarked this: \n  " + task);
+        print("Okay, I've unmarked this:", "  " + task);
     }
 
     /**
@@ -108,10 +126,7 @@ public class Ui {
      * @param tasks The task list to show.
      */
     public void showList(TaskList tasks) {
-        System.out.println("Tasks for today:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
-        }
+        print(numberedLines("Tasks for today:", tasks.asList()));
     }
 
     /**
@@ -121,10 +136,23 @@ public class Ui {
      * @param matches The matching tasks to show.
      */
     public void showFound(ArrayList<Task> matches) {
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < matches.size(); i++) {
-            System.out.println((i + 1) + "." + matches.get(i));
+        print(numberedLines("Here are the matching tasks in your list:", matches));
+    }
+
+    /**
+     * Builds a {@code heading} followed by every task in {@code tasks}, numbered from 1.
+     *
+     * @param heading The line to show above the numbered tasks.
+     * @param tasks The tasks to number.
+     * @return {@code heading} and the numbered tasks, ready to hand to {@link #print(String...)}.
+     */
+    private String[] numberedLines(String heading, ArrayList<Task> tasks) {
+        String[] lines = new String[tasks.size() + 1];
+        lines[0] = heading;
+        for (int i = 0; i < tasks.size(); i++) {
+            lines[i + 1] = (i + 1) + "." + tasks.get(i);
         }
+        return lines;
     }
 
     /**
@@ -133,6 +161,6 @@ public class Ui {
      * @param message Description of what went wrong, suitable for display to the user.
      */
     public void showError(String message) {
-        System.out.println("OOPS!!! " + message);
+        print("OOPS!!! " + message);
     }
 }
