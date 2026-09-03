@@ -1,0 +1,32 @@
+.label {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
+    -fx-background-radius: 1em 1em 0 1em;
+    -fx-padding: 10px 14px;
+    -fx-font-size: 13px;
+}
+
+.reply-label {
+    -fx-background-color: #e5e5ea;
+    -fx-text-fill: black;
+    -fx-background-radius: 1em 1em 1em 0;
+}
+
+#displayPicture {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6, 0.3, 2, 2);
+}
+
+.add-label {
+    -fx-background-color: #34c759;
+    -fx-text-fill: black;
+}
+
+.marked-label {
+    -fx-background-color: #ff9500;
+    -fx-text-fill: black;
+}
+
+.delete-label {
+    -fx-background-color: #ff3b30;
+    -fx-text-fill: white;
+}
