@@ -22,6 +22,7 @@ public class XiaoZhi {
     private final Storage storage;
     private final TaskList tasks;
     private boolean isExit = false;
+    private String commandType = "";
 
     /**
      * Creates a XiaoZhi that persists its tasks to the given file path.
@@ -55,10 +56,12 @@ public class XiaoZhi {
             Command command = Parser.parse(input);
             command.execute(tasks, ui, storage);
             isExit = command.isExit();
+            commandType = command.getClass().getSimpleName();
             if (isExit) {
                 ui.showFarewell();
             }
         } catch (XiaoZhiException e) {
+            commandType = "";
             ui.showError(e.getMessage());
         } finally {
             System.setOut(originalOut);
@@ -73,6 +76,19 @@ public class XiaoZhi {
      */
     public boolean isExit() {
         return isExit;
+    }
+
+    /**
+     * Returns the simple class name of the {@link Command} that produced the
+     * most recent {@link #getResponse(String)} reply, e.g. {@code "AddCommand"},
+     * or {@code ""} if that input could not be parsed into a command at all.
+     * Meant for the GUI to pick a bubble style for the reply (see
+     * {@code xiaozhi.gui.DialogBox}).
+     *
+     * @return The simple class name of the most recently executed command, or {@code ""}.
+     */
+    public String getCommandType() {
+        return commandType;
     }
 
     /**
