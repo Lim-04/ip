@@ -1,5 +1,8 @@
 package xiaozhi;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import xiaozhi.command.Command;
 import xiaozhi.exception.XiaoZhiException;
 import xiaozhi.parser.Parser;
@@ -18,6 +21,7 @@ public class XiaoZhi {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
+    private boolean isExit = false;
 
     /**
      * Creates a XiaoZhi that persists its tasks to the given file path.
@@ -28,6 +32,47 @@ public class XiaoZhi {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.tasks = new TaskList(storage.load());
+    }
+
+    /**
+     * Runs one line of input through the same parse-execute pipeline as
+     * {@link #run()}, returning what would have been printed instead of
+     * printing it. Meant for a GUI front-end (see {@code xiaozhi.gui}),
+     * which has no console to print to.
+     * <p>
+     * {@link Ui} still reports results through {@code System.out}, so this
+     * temporarily redirects standard output into a buffer for the duration
+     * of the call and hands back whatever was written to it.
+     *
+     * @param input One line of user input, exactly as it would be typed at the console.
+     * @return The response text XiaoZhi would have printed for that input.
+     */
+    public String getResponse(String input) {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(buffer));
+        try {
+            Command command = Parser.parse(input);
+            command.execute(tasks, ui, storage);
+            isExit = command.isExit();
+            if (isExit) {
+                ui.showFarewell();
+            }
+        } catch (XiaoZhiException e) {
+            ui.showError(e.getMessage());
+        } finally {
+            System.setOut(originalOut);
+        }
+        return buffer.toString().strip();
+    }
+
+    /**
+     * Returns whether the most recent {@link #getResponse(String)} call was an exit command.
+     *
+     * @return {@code true} if XiaoZhi should close after that response was shown, {@code false} otherwise.
+     */
+    public boolean isExit() {
+        return isExit;
     }
 
     /**
