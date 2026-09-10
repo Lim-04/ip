@@ -17,6 +17,9 @@ public abstract class Task {
      * @param description What the task is.
      */
     public Task(String description) {
+        assert description != null
+                : "Task description should never be null; Parser rejects blank/missing descriptions "
+                + "before a Task is constructed.";
         this.description = description;
         this.isDone = false;
     }

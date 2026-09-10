@@ -34,6 +34,7 @@ public class TaskList {
      * @param task The task to add.
      */
     public void add(Task task) {
+        assert task != null : "Cannot add a null task; every Command builds a real Task before calling this.";
         tasks.add(task);
     }
 
@@ -44,6 +45,8 @@ public class TaskList {
      * @return The task that was removed.
      */
     public Task remove(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index should already be validated by the caller (e.g. DeleteCommand) before reaching here.";
         return tasks.remove(index);
     }
 
@@ -54,6 +57,8 @@ public class TaskList {
      * @return The task at that position.
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size()
+                : "Index should already be validated by the caller (e.g. MarkCommand) before reaching here.";
         return tasks.get(index);
     }
 
@@ -83,6 +88,7 @@ public class TaskList {
      * @return The matching tasks, in their original order. Empty if none match.
      */
     public ArrayList<Task> find(String keyword) {
+        assert keyword != null : "Search keyword should never be null; Parser rejects a blank/missing keyword.";
         ArrayList<Task> matches = new ArrayList<>();
         String needle = keyword.toLowerCase();
         for (Task task : tasks) {

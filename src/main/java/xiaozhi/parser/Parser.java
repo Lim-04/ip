@@ -41,6 +41,9 @@ public class Parser {
      *         or a deadline's {@code /by} date).
      */
     public static Command parse(String fullCommand) throws XiaoZhiException {
+        assert fullCommand != null
+                : "Input line should never be null; it comes from Scanner.nextLine() or a GUI text "
+                + "field, neither of which returns null here.";
         String commandWord = fullCommand.split(" ")[0]; // To know what this input is supposed to do
         CommandWord commandType;
         try {

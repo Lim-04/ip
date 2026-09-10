@@ -32,6 +32,7 @@ public class Storage {
      * @param filePath Relative path (e.g. "./data/xiaozhi.txt") to the save file.
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.isBlank() : "Save file path should never be null or blank.";
         this.filePath = Paths.get(filePath);
     }
 
@@ -73,6 +74,7 @@ public class Storage {
      * @param tasks The current list of tasks to save.
      */
     public void save(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list to save should never be null; XiaoZhi always passes tasks.asList().";
         try {
             Path parentDir = filePath.getParent();
             if (parentDir != null) {
@@ -122,6 +124,7 @@ public class Storage {
             }
             default -> throw new XiaoZhiException("Unknown task type: " + type);
         };
+        assert task != null : "Every branch of the switch above either yields a Task or throws.";
 
         if (isDone) {
             task.markAsDone();
