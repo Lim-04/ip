@@ -20,6 +20,9 @@ public class Event extends Task {
      */
     public Event(String description, LocalDate from, LocalDate to) {
         super(description);
+        assert from != null && to != null
+                : "Event's from/to dates should never be null; both are always the result of "
+                + "Dates.parse(), which either returns a valid date or throws.";
         this.from = from;
         this.to = to;
     }

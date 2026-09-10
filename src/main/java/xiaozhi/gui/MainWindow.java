@@ -62,6 +62,9 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert xiaoZhi != null
+                : "xiaoZhi should already be injected via setXiaoZhi() before the user can type anything, "
+                + "since the text field only becomes usable after the window is shown.";
         String input = userInput.getText();
         if (input.isBlank()) {
             return;

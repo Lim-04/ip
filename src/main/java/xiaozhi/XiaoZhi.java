@@ -30,6 +30,7 @@ public class XiaoZhi {
      * @param filePath Path to the save file, passed straight to {@link Storage}.
      */
     public XiaoZhi(String filePath) {
+        assert filePath != null && !filePath.isBlank() : "Save file path should never be null or blank.";
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.tasks = new TaskList(storage.load());

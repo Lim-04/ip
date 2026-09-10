@@ -45,6 +45,7 @@ public class Ui {
      * @param lines The lines to print, in order.
      */
     private void print(String... lines) {
+        assert lines != null : "Varargs array should never be null; every caller passes literal arguments.";
         for (String line : lines) {
             System.out.println(line);
         }
@@ -147,6 +148,9 @@ public class Ui {
      * @return {@code heading} and the numbered tasks, ready to hand to {@link #print(String...)}.
      */
     private String[] numberedLines(String heading, ArrayList<Task> tasks) {
+        assert heading != null && tasks != null
+                : "Heading and task list should never be null; both are always supplied by "
+                + "showList()/showFound() with real values.";
         String[] lines = new String[tasks.size() + 1];
         lines[0] = heading;
         for (int i = 0; i < tasks.size(); i++) {
