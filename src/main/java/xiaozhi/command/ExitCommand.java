@@ -13,7 +13,7 @@ public class ExitCommand extends Command {
      * Does nothing; XiaoZhi prints the farewell itself once the loop ends.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) {
         // Nothing to do here; XiaoZhi prints the farewell after the loop ends.
     }
 

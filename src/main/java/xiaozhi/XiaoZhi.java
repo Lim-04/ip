@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import xiaozhi.command.Command;
+import xiaozhi.command.CommandHistory;
 import xiaozhi.exception.XiaoZhiException;
 import xiaozhi.parser.Parser;
 import xiaozhi.storage.Storage;
@@ -16,11 +17,16 @@ import xiaozhi.ui.Ui;
  * Wires together a {@link Ui}, a {@link Storage} and a {@link TaskList},
  * then drives the read-parse-execute loop that turns each line of input
  * into a {@link Command} via {@link Parser} and runs it.
+ * <p>
+ * Also owns the {@link CommandHistory} that lets {@code undo} reverse a
+ * previous command: every command that runs here without error is pushed
+ * onto it if {@link Command#isUndoable()} says it can be reversed.
  */
 public class XiaoZhi {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
+    private final CommandHistory history = new CommandHistory();
     private boolean isExit = false;
     private String commandType = "";
 
@@ -55,7 +61,10 @@ public class XiaoZhi {
         System.setOut(new PrintStream(buffer));
         try {
             Command command = Parser.parse(input);
-            command.execute(tasks, ui, storage);
+            command.execute(tasks, ui, storage, history);
+            if (command.isUndoable()) {
+                history.push(command);
+            }
             isExit = command.isExit();
             commandType = command.getClass().getSimpleName();
             if (isExit) {
@@ -107,7 +116,10 @@ public class XiaoZhi {
         while (!isExit) {
             try {
                 Command command = Parser.parse(input);
-                command.execute(tasks, ui, storage);
+                command.execute(tasks, ui, storage, history);
+                if (command.isUndoable()) {
+                    history.push(command);
+                }
                 isExit = command.isExit();
             } catch (XiaoZhiException e) {
                 ui.showError(e.getMessage());

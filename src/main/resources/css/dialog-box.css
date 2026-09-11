@@ -30,3 +30,8 @@
     -fx-background-color: #ff3b30;
     -fx-text-fill: white;
 }
+
+.undo-label {
+    -fx-background-color: #af52de;
+    -fx-text-fill: white;
+}

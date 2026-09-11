@@ -51,6 +51,23 @@ public class TaskList {
     }
 
     /**
+     * Inserts a task at the given position, shifting the task currently at
+     * that position (and everything after it) up by one.
+     * <p>
+     * Used by {@link xiaozhi.command.DeleteCommand#undo} to put a deleted
+     * task back exactly where it was, rather than at the end of the list.
+     *
+     * @param index 0-based position to insert the task at.
+     * @param task The task to insert.
+     */
+    public void insert(int index, Task task) {
+        assert index >= 0 && index <= tasks.size()
+                : "Index should already be validated by the caller (e.g. DeleteCommand.undo).";
+        assert task != null : "Cannot insert a null task.";
+        tasks.add(index, task);
+    }
+
+    /**
      * Returns the task at the given position, without removing it.
      *
      * @param index 0-based position of the task.

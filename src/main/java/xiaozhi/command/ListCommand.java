@@ -13,7 +13,7 @@ public class ListCommand extends Command {
      * Prints the current task list through {@code ui}. Does not touch storage.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) {
         ui.showList(tasks);
     }
 }

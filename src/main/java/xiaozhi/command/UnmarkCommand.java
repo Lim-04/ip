@@ -2,6 +2,7 @@ package xiaozhi.command;
 
 import xiaozhi.exception.XiaoZhiException;
 import xiaozhi.storage.Storage;
+import xiaozhi.task.Task;
 import xiaozhi.task.TaskList;
 import xiaozhi.ui.Ui;
 
@@ -10,6 +11,7 @@ import xiaozhi.ui.Ui;
  */
 public class UnmarkCommand extends Command {
     private final int targetIndex;
+    private boolean wasDoneBefore;
 
     /**
      * Creates an UnmarkCommand for the task at the given position.
@@ -27,13 +29,46 @@ public class UnmarkCommand extends Command {
      * @throws XiaoZhiException If {@code targetIndex} is not a valid position in {@code tasks}.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws XiaoZhiException {
+    public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) throws XiaoZhiException {
         if (targetIndex < 0 || targetIndex >= tasks.size()) {
             throw new XiaoZhiException(
                     "Task " + (targetIndex + 1) + " doesn't exist. You have " + tasks.size() + " task(s).");
         }
-        tasks.get(targetIndex).markAsNotDone();
-        ui.showUnmarked(tasks.get(targetIndex));
+        Task target = tasks.get(targetIndex);
+        wasDoneBefore = target.isDone();
+        target.markAsNotDone();
+        ui.showUnmarked(target);
+        storage.save(tasks.asList());
+    }
+
+    /**
+     * Returns {@code true} -- unmarking a task can always be undone by
+     * restoring whatever its done status was beforehand.
+     */
+    @Override
+    public boolean isUndoable() {
+        return true;
+    }
+
+    /**
+     * Restores the target task's done status to what it was right before this
+     * command unmarked it, reports the reversal through {@code ui}, and saves
+     * the updated list through {@code storage}.
+     * <p>
+     * Restoring rather than unconditionally marking matters when the task was
+     * already not done before this command ran (e.g. {@code unmark 1} used
+     * twice in a row): undoing the second, no-op unmark should leave it not done.
+     */
+    @Override
+    public void undo(TaskList tasks, Ui ui, Storage storage) {
+        Task target = tasks.get(targetIndex);
+        if (wasDoneBefore) {
+            target.markAsDone();
+            ui.showMarked(target);
+        } else {
+            target.markAsNotDone();
+            ui.showUnmarked(target);
+        }
         storage.save(tasks.asList());
     }
 }

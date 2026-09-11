@@ -7,6 +7,7 @@ import xiaozhi.command.ExitCommand;
 import xiaozhi.command.FindCommand;
 import xiaozhi.command.ListCommand;
 import xiaozhi.command.MarkCommand;
+import xiaozhi.command.UndoCommand;
 import xiaozhi.command.UnmarkCommand;
 import xiaozhi.exception.XiaoZhiException;
 import xiaozhi.task.Deadline;
@@ -25,7 +26,7 @@ import xiaozhi.util.Dates;
 public class Parser {
     // The set of command words XiaoZhi understands
     private enum CommandWord {
-        LIST, MARK, UNMARK, DELETE, FIND, TODO, DEADLINE, EVENT, BYE, UNKNOWN
+        LIST, MARK, UNMARK, DELETE, FIND, TODO, DEADLINE, EVENT, UNDO, BYE, UNKNOWN
     }
 
     private Parser() {
@@ -64,6 +65,7 @@ public class Parser {
             case TODO -> new AddCommand(parseTodo(fullCommand));
             case DEADLINE -> new AddCommand(parseDeadline(fullCommand));
             case EVENT -> new AddCommand(parseEvent(fullCommand));
+            case UNDO -> new UndoCommand();
             case BYE -> new ExitCommand();
             case UNKNOWN -> throw new XiaoZhiException("I don't recognise that command: " + commandWord);
         };

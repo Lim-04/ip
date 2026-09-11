@@ -179,9 +179,9 @@ What's the task for today?
 Got it. I've added this task:
   [T][ ] read book
 Now you have 1 tasks in the list.
-Roger! I've marked it as done: 
+Roger! I've marked it as done:
   [T][X] read book
-Okay, I've unmarked this: 
+Okay, I've unmarked this:
   [T][ ] read book
 Bye, See you soon!
 ```
@@ -667,5 +667,300 @@ __  ___            ______     _
 Hi! I'm XiaoZhi.
 What's the task for today?
 OOPS!!! Please specify a keyword to search for.
+Bye, See you soon!
+```
+
+## Test 24: Undo an added task
+
+**Aim:** Verify `undo` right after a `todo`/`deadline`/`event` removes the
+task that was just added, as if it had never been entered.
+
+**Input:**
+```
+todo read book
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it, I've deleted this task:
+  [T][ ] read book
+Now you have 0 tasks in the list.
+Tasks for today:
+Bye, See you soon!
+```
+
+## Test 25: Undo a deleted task restores its original position
+
+**Aim:** Verify `undo` right after a `delete` puts the task back at the same
+position it was removed from, not at the end of the list.
+
+**Input:**
+```
+todo read book
+deadline return book /by 2019-12-02
+delete 1
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [D][ ] return book (by: Dec 02 2019)
+Now you have 2 tasks in the list.
+Got it, I've deleted this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 2 tasks in the list.
+Tasks for today:
+1.[T][ ] read book
+2.[D][ ] return book (by: Dec 02 2019)
+Bye, See you soon!
+```
+
+## Test 26: Undo a mark
+
+**Aim:** Verify `undo` right after `mark <n>` unmarks the task again.
+
+**Input:**
+```
+todo read book
+mark 1
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Roger! I've marked it as done:
+  [T][X] read book
+Okay, I've unmarked this:
+  [T][ ] read book
+Tasks for today:
+1.[T][ ] read book
+Bye, See you soon!
+```
+
+## Test 27: Undo an unmark
+
+**Aim:** Verify `undo` right after `unmark <n>` marks the task done again.
+
+**Input:**
+```
+todo read book
+mark 1
+unmark 1
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Roger! I've marked it as done:
+  [T][X] read book
+Okay, I've unmarked this:
+  [T][ ] read book
+Roger! I've marked it as done:
+  [T][X] read book
+Tasks for today:
+1.[T][X] read book
+Bye, See you soon!
+```
+
+## Test 28: Undo a repeated mark restores the exact prior state
+
+**Aim:** Verify that undoing a `mark <n>` that was a no-op (the task was
+already done) leaves the task done, instead of blindly toggling it off. This
+guards against a naive undo that just flips the status bit rather than
+restoring what it was immediately before this specific command ran.
+
+**Input:**
+```
+todo read book
+mark 1
+mark 1
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Roger! I've marked it as done:
+  [T][X] read book
+Roger! I've marked it as done:
+  [T][X] read book
+Roger! I've marked it as done:
+  [T][X] read book
+Tasks for today:
+1.[T][X] read book
+Bye, See you soon!
+```
+
+## Test 29: Undo twice walks back two commands
+
+**Aim:** Verify repeated `undo` keeps reversing commands one at a time, in
+reverse chronological order (a delete then an add, undone as add-back then
+remove-again).
+
+**Input:**
+```
+todo read book
+todo write essay
+undo
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Got it. I've added this task:
+  [T][ ] write essay
+Now you have 2 tasks in the list.
+Got it, I've deleted this task:
+  [T][ ] write essay
+Now you have 1 tasks in the list.
+Got it, I've deleted this task:
+  [T][ ] read book
+Now you have 0 tasks in the list.
+Tasks for today:
+Bye, See you soon!
+```
+
+## Test 30: Undo with nothing to undo
+
+**Aim:** Verify `undo` with no prior undoable command (including right after
+startup, and after every earlier undo has already been used up) is reported
+as an error instead of crashing or silently doing nothing.
+
+**Input:**
+```
+undo
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+OOPS!!! There's nothing to undo.
+Bye, See you soon!
+```
+
+## Test 31: List and find cannot be undone
+
+**Aim:** Verify `undo` skips over non-mutating commands entirely -- an
+`undo` right after `list` reverses the last mutating command before it
+(the `todo`), not the `list` itself (which has nothing to undo).
+
+**Input:**
+```
+todo read book
+list
+undo
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+Hi! I'm XiaoZhi.
+What's the task for today?
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+Tasks for today:
+1.[T][ ] read book
+Got it, I've deleted this task:
+  [T][ ] read book
+Now you have 0 tasks in the list.
+Tasks for today:
 Bye, See you soon!
 ```

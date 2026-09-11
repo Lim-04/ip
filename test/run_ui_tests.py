@@ -12,7 +12,11 @@ Behavior:
     - Compiles all files under src/main/java into test/_build.
     - Parses every "## Test N: ..." section out of test/ui-test-plan.md.
     - Runs each test case in order, printing the input and actual output
-      for a full session transcript as it goes.
+      for a full session transcript as it goes. Each test case runs in its
+      own fresh temporary directory, so XiaoZhi's save file (created at
+      "./data/xiaozhi.txt", relative to wherever it is run from) never
+      leaks tasks from one test case into the next; every test case's
+      expected output can assume it starts from an empty task list.
     - Stops immediately at the first failing test case and reports both
       the expected and actual output for it (exit code 1).
     - Exits 0 and prints a summary if every test case passes.
@@ -21,6 +25,7 @@ Behavior:
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -80,13 +85,20 @@ def parse_test_plan():
 
 
 def run_test(test):
-    proc = subprocess.run(
-        ["java", "-cp", str(BUILD_DIR), "xiaozhi.XiaoZhi"],
-        input=test["input"] + "\n",
-        capture_output=True,
-        text=True,
-        timeout=10,
-    )
+    # Run in a fresh temp directory each time: XiaoZhi always saves to
+    # "./data/xiaozhi.txt" relative to its working directory, so reusing one
+    # working directory across test cases would let an earlier test case's
+    # tasks leak into a later one (e.g. an add in one test case silently
+    # bumping "Now you have N tasks" in the next).
+    with tempfile.TemporaryDirectory() as run_dir:
+        proc = subprocess.run(
+            ["java", "-cp", str(BUILD_DIR), "xiaozhi.XiaoZhi"],
+            input=test["input"] + "\n",
+            capture_output=True,
+            text=True,
+            timeout=10,
+            cwd=run_dir,
+        )
     return proc.stdout.rstrip("\n")
 
 

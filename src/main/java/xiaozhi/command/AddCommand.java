@@ -12,6 +12,7 @@ import xiaozhi.ui.Ui;
  */
 public class AddCommand extends Command {
     private final Task task;
+    private int addedIndex = -1;
 
     /**
      * Creates an AddCommand that will add the given task when executed.
@@ -27,9 +28,30 @@ public class AddCommand extends Command {
      * {@code ui}, and saves the updated list through {@code storage}.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) {
         tasks.add(task);
+        addedIndex = tasks.size() - 1;
         ui.showAdded(task, tasks.size());
+        storage.save(tasks.asList());
+    }
+
+    /**
+     * Returns {@code true} -- adding a task can always be undone by removing it again.
+     */
+    @Override
+    public boolean isUndoable() {
+        return true;
+    }
+
+    /**
+     * Removes the task this command added, reports the removal through
+     * {@code ui}, and saves the updated list through {@code storage}.
+     */
+    @Override
+    public void undo(TaskList tasks, Ui ui, Storage storage) {
+        assert addedIndex >= 0 : "undo() should only be called after execute() has run.";
+        Task removedTask = tasks.remove(addedIndex);
+        ui.showRemoved(removedTask, tasks.size());
         storage.save(tasks.asList());
     }
 }

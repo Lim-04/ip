@@ -27,7 +27,7 @@ public class FindCommand extends Command {
      * keyword, and reports the matches through {@code ui}. Does not touch storage.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) {
         ArrayList<Task> matches = tasks.find(keyword);
         ui.showFound(matches);
     }
