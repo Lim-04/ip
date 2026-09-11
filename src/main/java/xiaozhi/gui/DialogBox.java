@@ -76,6 +76,9 @@ public class DialogBox extends HBox {
             case "DeleteCommand":
                 dialog.getStyleClass().add("delete-label");
                 break;
+            case "UndoCommand":
+                dialog.getStyleClass().add("undo-label");
+                break;
             default:
                 // No special styling for this command type; keep the plain reply-label look.
                 break;
