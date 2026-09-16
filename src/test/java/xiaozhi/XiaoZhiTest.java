@@ -132,6 +132,33 @@ public class XiaoZhiTest {
     }
 
     @Test
+    public void getResponse_leadingWhitespaceBeforeCommandWord_isIgnored() {
+        // A stray leading space used to make the command word look like ""
+        // and be reported as unrecognised.
+        XiaoZhi xiaoZhi = newXiaoZhi();
+
+        String response = xiaoZhi.getResponse("  list");
+
+        assertEquals("The tasks that occupy your mind:", response);
+        assertEquals("ListCommand", xiaoZhi.getCommandType());
+    }
+
+    @Test
+    public void getResponse_addingTheSameTaskTwice_reportsErrorAndKeepsOnlyOneCopy() {
+        XiaoZhi xiaoZhi = newXiaoZhi();
+        xiaoZhi.getResponse("todo read book");
+
+        String response = xiaoZhi.getResponse("todo read book");
+
+        assertEquals("Reflect. This task already lives among your intentions: [T][ ] read book", response);
+        assertEquals("Error", xiaoZhi.getCommandType());
+        assertEquals(
+                "The tasks that occupy your mind:" + System.lineSeparator()
+                        + "1.[T][ ] read book",
+                xiaoZhi.getResponse("list"));
+    }
+
+    @Test
     public void newXiaoZhiOnSameFile_seesTasksSavedByAnEarlierInstance() {
         String filePath = tempDir.resolve("xiaozhi.txt").toString();
         new XiaoZhi(filePath).getResponse("todo read book");

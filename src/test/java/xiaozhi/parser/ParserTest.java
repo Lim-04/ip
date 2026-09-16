@@ -80,6 +80,30 @@ public class ParserTest {
         assertEquals("I have not learned the word \"foobar\".", thrown.getMessage());
     }
 
+    @Test
+    public void parse_blankInput_throwsWithDedicatedMessage() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () -> Parser.parse(""));
+
+        assertEquals("Please enter a command.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_onlyWhitespaceInput_throwsWithDedicatedMessage() {
+        // Guards against a naive implementation that treats "   " as the
+        // unknown command word "" (e.g. "I have not learned the word \"\".").
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () -> Parser.parse("   "));
+
+        assertEquals("Please enter a command.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_leadingWhitespaceBeforeCommandWord_isIgnored() throws Exception {
+        // A leading space used to make the command word look like "" and be
+        // reported as unrecognised, instead of the leading space simply
+        // being ignored the way a user would expect.
+        assertInstanceOf(ListCommand.class, Parser.parse("  list"));
+    }
+
     // ---------- todo ----------
 
     @Test
@@ -103,6 +127,44 @@ public class ParserTest {
     @Test
     public void parse_todoWithOnlyBlankDescription_throws() {
         assertThrows(XiaoZhiException.class, () -> Parser.parse("todo    "));
+    }
+
+    @Test
+    public void parse_todoWithMultipleSpacesBeforeDescription_collapsesToOneAndTrims() throws Exception {
+        // "todo  read book" used to keep the second space as part of the
+        // description, storing " read book" (leading space) instead of "read book".
+        AddCommand command = (AddCommand) Parser.parse("todo  read book");
+        TaskList tasks = new TaskList();
+
+        command.execute(tasks, new Ui(), newStorage(), new CommandHistory());
+
+        assertEquals("read book", tasks.get(0).getDescription());
+    }
+
+    @Test
+    public void parse_todoWithTrailingWhitespace_isTrimmedFromDescription() throws Exception {
+        // "todo read book   " used to keep the trailing spaces baked into the
+        // stored description, unlike deadline/event which already trimmed theirs.
+        AddCommand command = (AddCommand) Parser.parse("todo read book   ");
+        TaskList tasks = new TaskList();
+
+        command.execute(tasks, new Ui(), newStorage(), new CommandHistory());
+
+        assertEquals("read book", tasks.get(0).getDescription());
+    }
+
+    @Test
+    public void parse_todoDescriptionContainingPipeCharacter_throws() {
+        // The save format is "T | isDone | description"; a literal "|" in the
+        // description would corrupt that format and get silently truncated
+        // when the save file is read back in (see StorageTest).
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("todo buy milk | eggs"));
+
+        assertEquals(
+                "A task's description cannot contain the '|' character, "
+                        + "since it is used internally to save your tasks to disk.",
+                thrown.getMessage());
     }
 
     // ---------- deadline ----------
@@ -153,6 +215,35 @@ public class ParserTest {
         assertThrows(XiaoZhiException.class, () -> Parser.parse("deadline return book /by tomorrow"));
     }
 
+    @Test
+    public void parse_deadlineWithTwoByMarkers_throwsWithDedicatedMessage() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("deadline return book /by 2019-12-02 /by 2019-12-03"));
+
+        assertEquals("A deadline can only have one /by date.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_deadlineDescriptionContainingPipeCharacter_throws() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("deadline return | book /by 2019-12-02"));
+
+        assertEquals(
+                "A task's description cannot contain the '|' character, "
+                        + "since it is used internally to save your tasks to disk.",
+                thrown.getMessage());
+    }
+
+    @Test
+    public void parse_deadlineWithMultipleSpacesBeforeDescription_collapsesToOne() throws Exception {
+        AddCommand command = (AddCommand) Parser.parse("deadline   return book /by 2019-12-02");
+        TaskList tasks = new TaskList();
+
+        command.execute(tasks, new Ui(), newStorage(), new CommandHistory());
+
+        assertEquals("return book", tasks.get(0).getDescription());
+    }
+
     // ---------- event ----------
 
     @Test
@@ -195,6 +286,54 @@ public class ParserTest {
     public void parse_eventWithInvalidFromDate_throws() {
         assertThrows(XiaoZhiException.class, () ->
                 Parser.parse("event project meeting /from tomorrow /to 2019-08-07"));
+    }
+
+    @Test
+    public void parse_eventWithTwoFromMarkers_throwsWithDedicatedMessage() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event trip /from 2019-08-06 /from 2019-08-07 /to 2019-08-08"));
+
+        assertEquals("An event can only have one /from time.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_eventWithTwoToMarkers_throwsWithDedicatedMessage() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event trip /from 2019-08-06 /to 2019-08-07 /to 2019-08-08"));
+
+        assertEquals("An event can only have one /to time.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_eventDescriptionContainingPipeCharacter_throws() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event trip | vacation /from 2019-08-06 /to 2019-08-07"));
+
+        assertEquals(
+                "A task's description cannot contain the '|' character, "
+                        + "since it is used internally to save your tasks to disk.",
+                thrown.getMessage());
+    }
+
+    @Test
+    public void parse_eventWithFromDateAfterToDate_throws() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event trip /from 2019-08-10 /to 2019-08-01"));
+
+        assertEquals("An event's /from date cannot be later than its /to date.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_eventWithFromDateEqualToDate_isAllowed() throws Exception {
+        // A single-day event (e.g. "from Aug 6 to Aug 6") is a legitimate
+        // same-day span at this app's day-level date granularity, not an
+        // error -- only /from being strictly *after* /to is rejected.
+        AddCommand command = (AddCommand) Parser.parse("event trip /from 2019-08-10 /to 2019-08-10");
+        TaskList tasks = new TaskList();
+
+        command.execute(tasks, new Ui(), newStorage(), new CommandHistory());
+
+        assertEquals("[E][ ] trip (from: Aug 10 2019 to: Aug 10 2019)", tasks.get(0).toString());
     }
 
     // ---------- mark / unmark / delete ----------
@@ -241,6 +380,31 @@ public class ParserTest {
         assertEquals("\"abc\" isn't a valid task number.", thrown.getMessage());
     }
 
+    @Test
+    public void parse_markWithTwoNumbers_throwsWithCountInMessage() {
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () -> Parser.parse("mark 1 2"));
+
+        assertEquals("Please give exactly one task number to mark -- got 2.", thrown.getMessage());
+    }
+
+    @Test
+    public void parse_deleteWithTwoNumbers_throws() {
+        assertThrows(XiaoZhiException.class, () -> Parser.parse("delete 1 2"));
+    }
+
+    @Test
+    public void parse_markWithMultipleSpacesBeforeNumber_isIgnored() throws Exception {
+        // "mark  1" used to split into tokens ["mark", "", "1"], treating the
+        // empty token between the two spaces as the task number.
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+        Command command = Parser.parse("mark  1");
+
+        command.execute(tasks, new Ui(), newStorage(), new CommandHistory());
+
+        assertTrue(tasks.get(0).isDone());
+    }
+
     // ---------- find ----------
 
     @Test
@@ -269,5 +433,23 @@ public class ParserTest {
     @Test
     public void parse_findWithOnlyBlankKeyword_throws() {
         assertThrows(XiaoZhiException.class, () -> Parser.parse("find   "));
+    }
+
+    @Test
+    public void parse_findKeywordWithTrailingWhitespace_isTrimmed() throws Exception {
+        // A trailing space on the keyword used to be kept as part of it,
+        // silently breaking the substring match against task descriptions
+        // (e.g. "book " never matches "read book").
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+        Command command = Parser.parse("find book   ");
+
+        String output = OutputCapture.capture(() ->
+                command.execute(tasks, new Ui(), newStorage(), new CommandHistory()));
+
+        assertEquals(
+                "These are the tasks that echo your search:" + System.lineSeparator()
+                        + "1.[T][ ] read book" + System.lineSeparator(),
+                output);
     }
 }

@@ -83,4 +83,77 @@ public class StorageTest {
         assertTrue(Files.exists(nestedFile));
         assertEquals(1, storage.load().size());
     }
+
+    @Test
+    public void load_saveFilePathIsActuallyADirectory_returnsEmptyListInsteadOfCrashing() throws IOException {
+        // An environment problem (e.g. something else created a directory at
+        // the expected save path) should be reported gracefully, the same
+        // way an unreadable file already is, rather than propagating the
+        // underlying IOException and crashing the whole program.
+        Path pathThatIsADirectory = tempDir.resolve("xiaozhi.txt");
+        Files.createDirectory(pathThatIsADirectory);
+        Storage storage = new Storage(pathThatIsADirectory.toString());
+
+        ArrayList<Task> loaded = storage.load();
+
+        assertTrue(loaded.isEmpty());
+    }
+
+    @Test
+    public void save_saveFilePathIsActuallyADirectory_doesNotCrash() throws IOException {
+        Path pathThatIsADirectory = tempDir.resolve("xiaozhi.txt");
+        Files.createDirectory(pathThatIsADirectory);
+        Storage storage = new Storage(pathThatIsADirectory.toString());
+        ArrayList<Task> tasks = new ArrayList<>();
+        tasks.add(new Todo("read book"));
+
+        // Should not throw; Storage catches the IOException internally and
+        // just reports the problem to the console instead of propagating it.
+        storage.save(tasks);
+    }
+
+    @Test
+    public void load_lineWithUnknownTaskType_skipsOnlyThatLine() throws IOException {
+        Path saveFile = tempDir.resolve("xiaozhi.txt");
+        Files.writeString(saveFile, String.join(System.lineSeparator(),
+                "T | 0 | read book",
+                "X | 0 | some future task type this version does not know about",
+                ""));
+        Storage storage = new Storage(saveFile.toString());
+
+        ArrayList<Task> loaded = storage.load();
+
+        assertEquals(1, loaded.size());
+        assertEquals("T | 0 | read book", loaded.get(0).toSaveFormat());
+    }
+
+    @Test
+    public void load_deadlineLineMissingByField_skipsOnlyThatLine() throws IOException {
+        Path saveFile = tempDir.resolve("xiaozhi.txt");
+        Files.writeString(saveFile, String.join(System.lineSeparator(),
+                "T | 0 | read book",
+                "D | 0 | return book",
+                ""));
+        Storage storage = new Storage(saveFile.toString());
+
+        ArrayList<Task> loaded = storage.load();
+
+        assertEquals(1, loaded.size());
+        assertEquals("T | 0 | read book", loaded.get(0).toSaveFormat());
+    }
+
+    @Test
+    public void load_lineWithUnparseableDate_skipsOnlyThatLine() throws IOException {
+        Path saveFile = tempDir.resolve("xiaozhi.txt");
+        Files.writeString(saveFile, String.join(System.lineSeparator(),
+                "T | 0 | read book",
+                "D | 0 | return book | not-a-date",
+                ""));
+        Storage storage = new Storage(saveFile.toString());
+
+        ArrayList<Task> loaded = storage.load();
+
+        assertEquals(1, loaded.size());
+        assertEquals("T | 0 | read book", loaded.get(0).toSaveFormat());
+    }
 }

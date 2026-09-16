@@ -36,6 +36,32 @@ public class DatesTest {
     }
 
     @Test
+    public void parse_feb29InANonLeapYear_throwsXiaoZhiException() {
+        assertThrows(XiaoZhiException.class, () -> Dates.parse("2019-02-29"));
+    }
+
+    @Test
+    public void parse_feb29InALeapYear_isAccepted() throws XiaoZhiException {
+        assertEquals(LocalDate.of(2020, 2, 29), Dates.parse("2020-02-29"));
+    }
+
+    @Test
+    public void parse_monthThirteen_throwsXiaoZhiException() {
+        assertThrows(XiaoZhiException.class, () -> Dates.parse("2019-13-01"));
+    }
+
+    @Test
+    public void parse_dayZero_throwsXiaoZhiException() {
+        assertThrows(XiaoZhiException.class, () -> Dates.parse("2019-10-00"));
+    }
+
+    @Test
+    public void parse_aprilThirtyFirst_throwsXiaoZhiException() {
+        // April only has 30 days.
+        assertThrows(XiaoZhiException.class, () -> Dates.parse("2019-04-31"));
+    }
+
+    @Test
     public void parse_wrongSeparators_throwsXiaoZhiException() {
         assertThrows(XiaoZhiException.class, () -> Dates.parse("15/10/2019"));
     }
