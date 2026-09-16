@@ -113,9 +113,9 @@ public class DialogBox extends HBox {
      * @return XiaoZhi's dialog box, a full-width card on the left.
      */
     public static DialogBox getXiaoZhiDialog(String text, String commandType) {
-        var db = new DialogBox(text);
-        db.makeXiaoZhiCard();
-        db.changeDialogStyle(commandType);
-        return db;
+        var dialogBox = new DialogBox(text);
+        dialogBox.makeXiaoZhiCard();
+        dialogBox.changeDialogStyle(commandType);
+        return dialogBox;
     }
 }

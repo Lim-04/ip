@@ -8,23 +8,23 @@ import xiaozhi.util.Dates;
  * A task that spans from one date to another.
  */
 public class Event extends Task {
-    protected LocalDate from;
-    protected LocalDate to;
+    protected LocalDate fromDate;
+    protected LocalDate toDate;
 
     /**
      * Creates an event spanning the given dates.
      *
      * @param description What the event is.
-     * @param from Date the event starts.
-     * @param to Date the event ends.
+     * @param fromDate Date the event starts.
+     * @param toDate Date the event ends.
      */
-    public Event(String description, LocalDate from, LocalDate to) {
+    public Event(String description, LocalDate fromDate, LocalDate toDate) {
         super(description);
-        assert from != null && to != null
+        assert fromDate != null && toDate != null
                 : "Event's from/to dates should never be null; both are always the result of "
                 + "Dates.parse(), which either returns a valid date or throws.";
-        this.from = from;
-        this.to = to;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class Event extends Task {
 
     @Override
     public String toSaveFormat() {
-        return super.toSaveFormat() + " | " + from + " | " + to;
+        return super.toSaveFormat() + " | " + fromDate + " | " + toDate;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + Dates.format(from) + " to: " + Dates.format(to) + ")";
+        return "[E]" + super.toString() + " (from: " + Dates.format(fromDate) + " to: " + Dates.format(toDate) + ")";
     }
 }
