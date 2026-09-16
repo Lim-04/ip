@@ -32,7 +32,8 @@ public class DeleteCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) throws XiaoZhiException {
         if (targetIndex < 0 || targetIndex >= tasks.size()) {
             throw new XiaoZhiException(
-                    "Task " + (targetIndex + 1) + " doesn't exist. You have " + tasks.size() + " task(s).");
+                    "There is no task " + (targetIndex + 1) + " to speak of. Only " + tasks.size()
+                    + " task(s) exist; look again before you act.");
         }
         removedTask = tasks.remove(targetIndex);
         ui.showRemoved(removedTask, tasks.size());

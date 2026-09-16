@@ -69,14 +69,14 @@ public class Ui {
      * Prints the greeting shown right after the banner.
      */
     public void showGreeting() {
-        print("Hi! I'm XiaoZhi.", "What's the task for today?");
+        print("I am Master Zhi.", "Speak your intention, and I shall attend to it.");
     }
 
     /**
      * Prints the farewell shown once XiaoZhi's main loop ends.
      */
     public void showFarewell() {
-        print("Bye, See you soon!");
+        print("Go now, and let your tasks find their season.");
     }
 
     /**
@@ -86,9 +86,9 @@ public class Ui {
      * @param taskCount The number of tasks now in the list, including this one.
      */
     public void showAdded(Task task, int taskCount) {
-        print("Got it. I've added this task:",
+        print("It is done.",
                 "  " + task,
-                "Now you have " + taskCount + " tasks in the list.");
+                "Now " + taskCount + " task(s) rest among your intentions.");
     }
 
     /**
@@ -98,9 +98,9 @@ public class Ui {
      * @param taskCount The number of tasks left in the list.
      */
     public void showRemoved(Task task, int taskCount) {
-        print("Got it, I've deleted this task:",
+        print("What no longer serves you has been released.",
                 "  " + task,
-                "Now you have " + taskCount + " tasks in the list.");
+                "Now " + taskCount + " task(s) remain.");
     }
 
     /**
@@ -109,7 +109,7 @@ public class Ui {
      * @param task The task that was marked done.
      */
     public void showMarked(Task task) {
-        print("Roger! I've marked it as done:", "  " + task);
+        print("The circle closes.", "  " + task);
     }
 
     /**
@@ -118,7 +118,7 @@ public class Ui {
      * @param task The task that was marked not done.
      */
     public void showUnmarked(Task task) {
-        print("Okay, I've unmarked this:", "  " + task);
+        print("What was closed is opened again.", "  " + task);
     }
 
     /**
@@ -127,7 +127,7 @@ public class Ui {
      * @param tasks The task list to show.
      */
     public void showList(TaskList tasks) {
-        print(numberedLines("Tasks for today:", tasks.asList()));
+        print(numberedLines("The tasks that occupy your mind:", tasks.asList()));
     }
 
     /**
@@ -137,7 +137,7 @@ public class Ui {
      * @param matches The matching tasks to show.
      */
     public void showFound(ArrayList<Task> matches) {
-        print(numberedLines("Here are the matching tasks in your list:", matches));
+        print(numberedLines("These are the tasks that echo your search:", matches));
     }
 
     /**
@@ -165,6 +165,6 @@ public class Ui {
      * @param message Description of what went wrong, suitable for display to the user.
      */
     public void showError(String message) {
-        print("OOPS!!! " + message);
+        print("Reflect. " + message);
     }
 }

@@ -36,7 +36,7 @@ public class Main extends Application {
             BorderPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("XiaoZhi");
+            stage.setTitle("Master Zhi");
             stage.setMinWidth(MIN_WINDOW_WIDTH);
             stage.setMinHeight(MIN_WINDOW_HEIGHT);
             stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/XiaoZhi.png")));

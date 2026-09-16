@@ -1,36 +1,38 @@
 .root {
     /* JavaFX paints later background layers on top, so the solid base comes
-       first and the two aurora glows are layered above it. */
+       first and the two ink glows are layered above it. */
     -fx-background-color:
-        #1a1330,
-        radial-gradient(center 12% 8%, radius 55%, rgba(124, 58, 237, 0.32) 0%, transparent 70%),
-        radial-gradient(center 88% 94%, radius 55%, rgba(59, 130, 246, 0.28) 0%, transparent 70%);
-    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        #101913,
+        radial-gradient(center 12% 8%, radius 55%, rgba(58, 89, 64, 0.35) 0%, transparent 70%),
+        radial-gradient(center 88% 94%, radius 55%, rgba(201, 168, 106, 0.12) 0%, transparent 70%);
+    -fx-font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 /* ---------- Header ---------- */
 
 .header-bar {
-    -fx-background-color: rgba(255, 255, 255, 0.10);
-    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.16) transparent;
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-border-color: transparent transparent rgba(201, 168, 106, 0.28) transparent;
     -fx-border-width: 0 0 1 0;
     -fx-padding: 10 16 10 16;
 }
 
-.xz-avatar {
-    -fx-fill: radial-gradient(center 30% 30%, radius 70%, #f0d9ff 0%, #7c3aed 100%);
-    -fx-effect: dropshadow(gaussian, rgba(196, 132, 252, 0.55), 8, 0.4, 0, 0);
+.mz-avatar {
+    -fx-fill: radial-gradient(center 32% 30%, radius 75%, #ddbf87 0%, #a8823f 100%);
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 106, 0.4), 8, 0.4, 0, 0);
 }
 
 .header-title {
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-text-fill: #ece6d6;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
+    -fx-font-style: italic;
 }
 
 .header-subtitle {
-    -fx-text-fill: rgba(255, 255, 255, 0.55);
+    -fx-text-fill: #9db79f;
     -fx-font-size: 10.5px;
+    -fx-font-style: italic;
 }
 
 /* ---------- Chat area ---------- */
@@ -49,7 +51,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: rgba(255, 255, 255, 0.35);
+    -fx-background-color: rgba(201, 168, 106, 0.35);
     -fx-background-radius: 1em;
 }
 
@@ -62,42 +64,43 @@
 /* ---------- Input bar ---------- */
 
 .input-bar {
-    -fx-background-color: rgba(255, 255, 255, 0.10);
-    -fx-border-color: rgba(255, 255, 255, 0.16) transparent transparent transparent;
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-border-color: rgba(201, 168, 106, 0.28) transparent transparent transparent;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 10 14 10 14;
 }
 
 .input-field {
-    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-background-color: rgba(255, 255, 255, 0.03);
     -fx-background-radius: 18;
-    -fx-border-color: rgba(255, 255, 255, 0.26);
+    -fx-border-color: rgba(201, 168, 106, 0.25);
     -fx-border-radius: 18;
     -fx-padding: 9 15 9 15;
     -fx-font-size: 13.5px;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
+    -fx-font-style: italic;
+    -fx-text-fill: #ece6d6;
+    -fx-prompt-text-fill: #7c8f7e;
 }
 
 .send-button {
-    -fx-background-color: #8b5cf6;
+    -fx-background-color: radial-gradient(center 32% 30%, radius 75%, #ddbf87 0%, #a8823f 100%);
     -fx-background-radius: 100;
     -fx-min-width: 38;
     -fx-min-height: 38;
     -fx-max-width: 38;
     -fx-max-height: 38;
     -fx-padding: 0;
-    -fx-effect: dropshadow(gaussian, rgba(196, 132, 252, 0.45), 8, 0.3, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 106, 0.4), 8, 0.3, 0, 0);
 }
 
 .send-button:hover {
-    -fx-background-color: #9d6ffb;
+    -fx-background-color: radial-gradient(center 32% 30%, radius 75%, #e8caa0 0%, #b98f4c 100%);
 }
 
 .send-button:pressed {
-    -fx-background-color: #7c4de0;
+    -fx-background-color: radial-gradient(center 32% 30%, radius 75%, #c9a86a 0%, #8a6a30 100%);
 }
 
 .send-icon {
-    -fx-fill: white;
+    -fx-fill: #1c2e22;
 }

@@ -20,11 +20,11 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header-bar" BorderPane.alignment="CENTER">
             <children>
-                <Circle radius="13.0" styleClass="xz-avatar" />
+                <Circle radius="13.0" styleClass="mz-avatar" />
                 <VBox>
                     <children>
-                        <Label styleClass="header-title" text="XiaoZhi" />
-                        <Label styleClass="header-subtitle" text="Task assistant" />
+                        <Label styleClass="header-title" text="Master Zhi" />
+                        <Label styleClass="header-subtitle" text="wisdom for your tasks" />
                     </children>
                 </VBox>
             </children>
@@ -46,7 +46,7 @@
         <HBox alignment="CENTER" spacing="10.0" styleClass="input-bar" BorderPane.alignment="CENTER">
             <children>
                 <TextField fx:id="userInput" onAction="#handleUserInput"
-                           promptText="Type a command…" styleClass="input-field"
+                           promptText="Speak your intention…" styleClass="input-field"
                            HBox.hgrow="ALWAYS" />
                 <Button fx:id="sendButton" mnemonicParsing="false"
                         onAction="#handleUserInput" styleClass="send-button">
