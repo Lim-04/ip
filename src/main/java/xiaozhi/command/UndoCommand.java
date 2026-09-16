@@ -24,7 +24,7 @@ public class UndoCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage, CommandHistory history) throws XiaoZhiException {
         if (history.isEmpty()) {
-            throw new XiaoZhiException("There's nothing to undo.");
+            throw new XiaoZhiException("There is nothing left to undo; the past cannot be unmade twice.");
         }
         Command lastCommand = history.pop();
         lastCommand.undo(tasks, ui, storage);

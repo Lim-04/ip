@@ -27,9 +27,9 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 2: Add a todo
@@ -51,12 +51,12 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 3: Add a deadline
@@ -78,12 +78,12 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [D][ ] return book (by: Dec 02 2019)
-Now you have 1 tasks in the list.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 4: Add an event
@@ -105,12 +105,12 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
-Now you have 1 tasks in the list.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 5: List multiple tasks of different types
@@ -135,22 +135,22 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) rest among your intentions.
+It is done.
   [D][ ] return book (by: Dec 02 2019)
-Now you have 2 tasks in the list.
-Got it. I've added this task:
+Now 2 task(s) rest among your intentions.
+It is done.
   [E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
-Now you have 3 tasks in the list.
-Tasks for today:
+Now 3 task(s) rest among your intentions.
+The tasks that occupy your mind:
 1.[T][ ] read book
 2.[D][ ] return book (by: Dec 02 2019)
 3.[E][ ] project meeting (from: Aug 06 2019 to: Aug 07 2019)
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 6: Mark and unmark a task
@@ -174,16 +174,16 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Roger! I've marked it as done:
+Now 1 task(s) rest among your intentions.
+The circle closes.
   [T][X] read book
-Okay, I've unmarked this:
+What was closed is opened again.
   [T][ ] read book
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 7: Unrecognised command
@@ -206,10 +206,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! I don't recognise that command: foobar
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. I have not learned the word "foobar".
+Go now, and let your tasks find their season.
 ```
 
 ## Test 8: Empty todo description
@@ -232,10 +232,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! The description of a todo cannot be empty.
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. The description of a todo cannot be empty.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 9: Deadline missing /by
@@ -258,10 +258,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! A deadline needs a /by date. Try: deadline <description> /by <date>
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. A deadline needs a /by date. Try: deadline <description> /by <date>
+Go now, and let your tasks find their season.
 ```
 
 ## Test 10: Event missing /from
@@ -283,10 +283,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! An event needs a /from time. Try: event <description> /from <start> /to <end>
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. An event needs a /from time. Try: event <description> /from <start> /to <end>
+Go now, and let your tasks find their season.
 ```
 
 ## Test 11: Event missing /to
@@ -308,10 +308,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! An event needs a /to time. Try: event <description> /from <start> /to <end>
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. An event needs a /to time. Try: event <description> /from <start> /to <end>
+Go now, and let your tasks find their season.
 ```
 
 ## Test 12: Mark with an out-of-range task number
@@ -335,13 +335,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-OOPS!!! Task 5 doesn't exist. You have 1 task(s).
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Reflect. There is no task 5 to speak of. Only 1 task(s) exist; look again before you act.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 13: Mark with a non-numeric task number
@@ -364,13 +364,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-OOPS!!! "abc" isn't a valid task number.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Reflect. "abc" isn't a valid task number.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 14: Delete a task
@@ -395,20 +395,20 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) rest among your intentions.
+It is done.
   [D][ ] return book (by: Dec 02 2019)
-Now you have 2 tasks in the list.
-Got it, I've deleted this task:
+Now 2 task(s) rest among your intentions.
+What no longer serves you has been released.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Tasks for today:
+Now 1 task(s) remain.
+The tasks that occupy your mind:
 1.[D][ ] return book (by: Dec 02 2019)
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 15: Delete with a missing task number
@@ -430,13 +430,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-OOPS!!! Please specify which task number to delete.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Reflect. Please specify which task number to delete.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 16: Delete with a non-numeric task number
@@ -459,13 +459,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-OOPS!!! "abc" isn't a valid task number.
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Reflect. "abc" isn't a valid task number.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 17: Delete with an out-of-range task number
@@ -488,13 +488,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-OOPS!!! Task 5 doesn't exist. You have 1 task(s).
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+Reflect. There is no task 5 to speak of. Only 1 task(s) exist; look again before you act.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 18: Deadline with an invalid date
@@ -516,10 +516,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 19: Event with an invalid date
@@ -541,10 +541,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. "tomorrow" isn't a valid date. Please use yyyy-mm-dd, e.g. 2019-10-15.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 20: Find matches across task types
@@ -570,21 +570,21 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) rest among your intentions.
+It is done.
   [D][ ] return book (by: Jun 06 2019)
-Now you have 2 tasks in the list.
-Got it. I've added this task:
+Now 2 task(s) rest among your intentions.
+It is done.
   [E][ ] project meeting (from: Aug 06 2019 to: Aug 06 2019)
-Now you have 3 tasks in the list.
-Here are the matching tasks in your list:
+Now 3 task(s) rest among your intentions.
+These are the tasks that echo your search:
 1.[T][ ] read book
 2.[D][ ] return book (by: Jun 06 2019)
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 21: Find with no matches
@@ -607,13 +607,13 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Here are the matching tasks in your list:
-Bye, See you soon!
+Now 1 task(s) rest among your intentions.
+These are the tasks that echo your search:
+Go now, and let your tasks find their season.
 ```
 
 ## Test 22: Find is case-insensitive
@@ -635,14 +635,14 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] Read Book
-Now you have 1 tasks in the list.
-Here are the matching tasks in your list:
+Now 1 task(s) rest among your intentions.
+These are the tasks that echo your search:
 1.[T][ ] Read Book
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 23: Find with an empty keyword
@@ -664,10 +664,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! Please specify a keyword to search for.
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. Please specify a keyword to search for.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 24: Undo an added task
@@ -691,16 +691,16 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it, I've deleted this task:
+Now 1 task(s) rest among your intentions.
+What no longer serves you has been released.
   [T][ ] read book
-Now you have 0 tasks in the list.
-Tasks for today:
-Bye, See you soon!
+Now 0 task(s) remain.
+The tasks that occupy your mind:
+Go now, and let your tasks find their season.
 ```
 
 ## Test 25: Undo a deleted task restores its original position
@@ -726,24 +726,24 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) rest among your intentions.
+It is done.
   [D][ ] return book (by: Dec 02 2019)
-Now you have 2 tasks in the list.
-Got it, I've deleted this task:
+Now 2 task(s) rest among your intentions.
+What no longer serves you has been released.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) remain.
+It is done.
   [T][ ] read book
-Now you have 2 tasks in the list.
-Tasks for today:
+Now 2 task(s) rest among your intentions.
+The tasks that occupy your mind:
 1.[T][ ] read book
 2.[D][ ] return book (by: Dec 02 2019)
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 26: Undo a mark
@@ -767,18 +767,18 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Roger! I've marked it as done:
+Now 1 task(s) rest among your intentions.
+The circle closes.
   [T][X] read book
-Okay, I've unmarked this:
+What was closed is opened again.
   [T][ ] read book
-Tasks for today:
+The tasks that occupy your mind:
 1.[T][ ] read book
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 27: Undo an unmark
@@ -803,20 +803,20 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Roger! I've marked it as done:
+Now 1 task(s) rest among your intentions.
+The circle closes.
   [T][X] read book
-Okay, I've unmarked this:
+What was closed is opened again.
   [T][ ] read book
-Roger! I've marked it as done:
+The circle closes.
   [T][X] read book
-Tasks for today:
+The tasks that occupy your mind:
 1.[T][X] read book
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 28: Undo a repeated mark restores the exact prior state
@@ -844,20 +844,20 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Roger! I've marked it as done:
+Now 1 task(s) rest among your intentions.
+The circle closes.
   [T][X] read book
-Roger! I've marked it as done:
+The circle closes.
   [T][X] read book
-Roger! I've marked it as done:
+The circle closes.
   [T][X] read book
-Tasks for today:
+The tasks that occupy your mind:
 1.[T][X] read book
-Bye, See you soon!
+Go now, and let your tasks find their season.
 ```
 
 ## Test 29: Undo twice walks back two commands
@@ -884,22 +884,22 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Got it. I've added this task:
+Now 1 task(s) rest among your intentions.
+It is done.
   [T][ ] write essay
-Now you have 2 tasks in the list.
-Got it, I've deleted this task:
+Now 2 task(s) rest among your intentions.
+What no longer serves you has been released.
   [T][ ] write essay
-Now you have 1 tasks in the list.
-Got it, I've deleted this task:
+Now 1 task(s) remain.
+What no longer serves you has been released.
   [T][ ] read book
-Now you have 0 tasks in the list.
-Tasks for today:
-Bye, See you soon!
+Now 0 task(s) remain.
+The tasks that occupy your mind:
+Go now, and let your tasks find their season.
 ```
 
 ## Test 30: Undo with nothing to undo
@@ -922,10 +922,10 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-OOPS!!! There's nothing to undo.
-Bye, See you soon!
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. There is nothing left to undo; the past cannot be unmade twice.
+Go now, and let your tasks find their season.
 ```
 
 ## Test 31: List and find cannot be undone
@@ -951,16 +951,16 @@ __  ___            ______     _
  /  \| | (_| | (_) / /_| | | | |
 /_/\_\_|\__,_|\___/____|_| |_|_|
 
-Hi! I'm XiaoZhi.
-What's the task for today?
-Got it. I've added this task:
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
   [T][ ] read book
-Now you have 1 tasks in the list.
-Tasks for today:
+Now 1 task(s) rest among your intentions.
+The tasks that occupy your mind:
 1.[T][ ] read book
-Got it, I've deleted this task:
+What no longer serves you has been released.
   [T][ ] read book
-Now you have 0 tasks in the list.
-Tasks for today:
-Bye, See you soon!
+Now 0 task(s) remain.
+The tasks that occupy your mind:
+Go now, and let your tasks find their season.
 ```
