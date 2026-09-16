@@ -95,4 +95,24 @@ public class TodoTest {
 
         assertEquals("T | 1 | read book", todo.toSaveFormat());
     }
+
+    @Test
+    public void equals_sameDescription_isEqualRegardlessOfDoneStatus() {
+        Todo first = new Todo("read book");
+        Todo second = new Todo("read book");
+        second.markAsDone();
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    public void equals_differentDescription_isNotEqual() {
+        assertFalse(new Todo("read book").equals(new Todo("write essay")));
+    }
+
+    @Test
+    public void equals_notATodo_isNotEqual() {
+        assertFalse(new Todo("read book").equals("read book"));
+    }
 }

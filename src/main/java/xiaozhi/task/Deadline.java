@@ -1,6 +1,7 @@
 package xiaozhi.task;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import xiaozhi.util.Dates;
 
@@ -32,6 +33,37 @@ public class Deadline extends Task {
     @Override
     public String toSaveFormat() {
         return super.toSaveFormat() + " | " + byDate;
+    }
+
+    /**
+     * Returns whether {@code other} is a Deadline with the same description
+     * and {@code /by} date as this one. Completion status is not part of the
+     * comparison; used by {@link xiaozhi.command.AddCommand} to reject adding
+     * the same deadline twice.
+     *
+     * @param other The object to compare against.
+     * @return {@code true} if {@code other} is an equivalent Deadline, {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Deadline)) {
+            return false;
+        }
+        Deadline that = (Deadline) other;
+        return description.equals(that.description) && byDate.equals(that.byDate);
+    }
+
+    /**
+     * Returns a hash code consistent with {@link #equals(Object)}.
+     *
+     * @return The hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTypeIcon(), description, byDate);
     }
 
     @Override

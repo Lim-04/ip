@@ -964,3 +964,302 @@ Now 0 task(s) remain.
 The tasks that occupy your mind:
 Go now, and let your tasks find their season.
 ```
+
+## Test 32: Leading whitespace before the command word is ignored
+
+**Aim:** Verify a stray leading space before the command word (e.g. from a
+copy-paste) does not make the command look unrecognised.
+
+**Input:**
+```
+  list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+The tasks that occupy your mind:
+Go now, and let your tasks find their season.
+```
+
+## Test 33: Multiple spaces between the command word and its argument
+
+**Aim:** Verify an accidental extra space right after the command word
+(e.g. `todo  read book`) is collapsed rather than becoming part of the
+stored description as a leading space.
+
+**Input:**
+```
+todo  read book
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
+  [T][ ] read book
+Now 1 task(s) rest among your intentions.
+The tasks that occupy your mind:
+1.[T][ ] read book
+Go now, and let your tasks find their season.
+```
+
+## Test 34: Blank input
+
+**Aim:** Verify a line with nothing but whitespace (e.g. an accidental
+Enter press) is reported as an error with a dedicated message, instead of
+being reported as an unrecognised command with an empty name.
+
+**Input:**
+```
+   
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. Please enter a command.
+Go now, and let your tasks find their season.
+```
+
+## Test 35: Mark with more than one argument
+
+**Aim:** Verify `mark <n> <extra>` is reported as an error instead of
+silently ignoring everything after the first number.
+
+**Input:**
+```
+todo read book
+mark 1 2
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
+  [T][ ] read book
+Now 1 task(s) rest among your intentions.
+Reflect. Please give exactly one task number to mark -- got 2.
+Go now, and let your tasks find their season.
+```
+
+## Test 36: Deadline with two /by markers
+
+**Aim:** Verify a `deadline` command with more than one `/by` marker is
+reported with a dedicated message, instead of feeding the leftover text
+into date parsing and producing a confusing "isn't a valid date" error.
+
+**Input:**
+```
+deadline return book /by 2019-12-02 /by 2019-12-03
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. A deadline can only have one /by date.
+Go now, and let your tasks find their season.
+```
+
+## Test 37: Event with two /from markers
+
+**Aim:** Verify an `event` command with more than one `/from` marker is
+reported with a dedicated message.
+
+**Input:**
+```
+event trip /from 2019-08-06 /from 2019-08-07 /to 2019-08-08
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. An event can only have one /from time.
+Go now, and let your tasks find their season.
+```
+
+## Test 38: Event with two /to markers
+
+**Aim:** Verify an `event` command with more than one `/to` marker is
+reported with a dedicated message.
+
+**Input:**
+```
+event trip /from 2019-08-06 /to 2019-08-07 /to 2019-08-08
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. An event can only have one /to time.
+Go now, and let your tasks find their season.
+```
+
+## Test 39: Event with /from later than /to
+
+**Aim:** Verify an `event` whose `/from` date is later than its `/to` date
+is rejected, instead of being stored as a nonsensical backwards span.
+
+**Input:**
+```
+event trip /from 2019-08-10 /to 2019-08-01
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. An event's /from date cannot be later than its /to date.
+Go now, and let your tasks find their season.
+```
+
+## Test 40: Event with /from equal to /to is still allowed
+
+**Aim:** Verify a single-day event (`/from` and `/to` the same date) is
+still accepted -- only a `/from` strictly *later* than `/to` is an error,
+since same-day is a legitimate event at this app's day-level granularity.
+
+**Input:**
+```
+event trip /from 2019-08-10 /to 2019-08-10
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
+  [E][ ] trip (from: Aug 10 2019 to: Aug 10 2019)
+Now 1 task(s) rest among your intentions.
+Go now, and let your tasks find their season.
+```
+
+## Test 41: Task description containing the save-file delimiter
+
+**Aim:** Verify a description containing the `|` character is rejected,
+since the save file uses `|` to separate fields and a literal `|` in a
+description would corrupt it and be silently truncated when read back in.
+
+**Input:**
+```
+todo buy milk | eggs
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+Reflect. A task's description cannot contain the '|' character, since it is used internally to save your tasks to disk.
+Go now, and let your tasks find their season.
+```
+
+## Test 42: Adding the same task twice
+
+**Aim:** Verify adding a task that is identical (same type, description,
+and any dates) to one already in the list is rejected instead of silently
+creating a duplicate.
+
+**Input:**
+```
+todo read book
+todo read book
+list
+bye
+```
+
+**Expected output:**
+```
+__  ___            ______     _
+\ \/ (_) __ _  ___|__  / |__ (_)
+ \  /| |/ _` |/ _ \ / /| '_ \| |
+ /  \| | (_| | (_) / /_| | | | |
+/_/\_\_|\__,_|\___/____|_| |_|_|
+
+I am Master Zhi.
+Speak your intention, and I shall attend to it.
+It is done.
+  [T][ ] read book
+Now 1 task(s) rest among your intentions.
+Reflect. This task already lives among your intentions: [T][ ] read book
+The tasks that occupy your mind:
+1.[T][ ] read book
+Go now, and let your tasks find their season.
+```

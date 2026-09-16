@@ -1,6 +1,7 @@
 package xiaozhi.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
 
@@ -48,5 +49,30 @@ public class EventTest {
         event.markAsDone();
 
         assertEquals("E | 1 | project meeting | 2019-08-06 | 2019-08-07", event.toSaveFormat());
+    }
+
+    @Test
+    public void equals_sameDescriptionAndDates_isEqualRegardlessOfDoneStatus() {
+        Event first = new Event("project meeting", LocalDate.of(2019, 8, 6), LocalDate.of(2019, 8, 7));
+        Event second = new Event("project meeting", LocalDate.of(2019, 8, 6), LocalDate.of(2019, 8, 7));
+        second.markAsDone();
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    public void equals_differentToDate_isNotEqual() {
+        Event first = new Event("project meeting", LocalDate.of(2019, 8, 6), LocalDate.of(2019, 8, 7));
+        Event second = new Event("project meeting", LocalDate.of(2019, 8, 6), LocalDate.of(2019, 8, 8));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_notAnEvent_isNotEqual() {
+        Event event = new Event("project meeting", LocalDate.of(2019, 8, 6), LocalDate.of(2019, 8, 7));
+
+        assertFalse(event.equals(new Todo("project meeting")));
     }
 }

@@ -1,6 +1,7 @@
 package xiaozhi.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
 
@@ -48,5 +49,30 @@ public class DeadlineTest {
         deadline.markAsDone();
 
         assertEquals("D | 1 | return book | 2019-06-06", deadline.toSaveFormat());
+    }
+
+    @Test
+    public void equals_sameDescriptionAndByDate_isEqualRegardlessOfDoneStatus() {
+        Deadline first = new Deadline("return book", LocalDate.of(2019, 6, 6));
+        Deadline second = new Deadline("return book", LocalDate.of(2019, 6, 6));
+        second.markAsDone();
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    public void equals_sameDescriptionDifferentByDate_isNotEqual() {
+        Deadline first = new Deadline("return book", LocalDate.of(2019, 6, 6));
+        Deadline second = new Deadline("return book", LocalDate.of(2019, 6, 7));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_sameDescriptionAsATodo_isNotEqual() {
+        Deadline deadline = new Deadline("return book", LocalDate.of(2019, 6, 6));
+
+        assertFalse(deadline.equals(new Todo("return book")));
     }
 }

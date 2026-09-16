@@ -1,14 +1,18 @@
 package xiaozhi.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import xiaozhi.exception.XiaoZhiException;
 import xiaozhi.storage.Storage;
+import xiaozhi.task.Deadline;
 import xiaozhi.task.TaskList;
 import xiaozhi.task.Todo;
 import xiaozhi.testutil.OutputCapture;
@@ -69,5 +73,50 @@ public class AddCommandTest {
                         + "Now 0 task(s) remain." + System.lineSeparator(),
                 output);
         assertTrue(storage.load().isEmpty());
+    }
+
+    @Test
+    public void execute_taskAlreadyInList_throwsAndLeavesListAndStorageUnchanged() throws Exception {
+        TaskList tasks = new TaskList();
+        Ui ui = new Ui();
+        Storage storage = new Storage(tempDir.resolve("xiaozhi.txt").toString());
+        new AddCommand(new Todo("read book")).execute(tasks, ui, storage, new CommandHistory());
+        AddCommand duplicate = new AddCommand(new Todo("read book"));
+
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                duplicate.execute(tasks, ui, storage, new CommandHistory()));
+
+        assertEquals("This task already lives among your intentions: [T][ ] read book", thrown.getMessage());
+        assertEquals(1, tasks.size());
+        assertEquals(1, storage.load().size());
+    }
+
+    @Test
+    public void execute_sameDescriptionButDifferentTaskType_isNotADuplicate() throws Exception {
+        // A todo and a deadline that happen to share a description are
+        // different tasks (one has no date, the other does), not duplicates.
+        TaskList tasks = new TaskList();
+        Ui ui = new Ui();
+        Storage storage = new Storage(tempDir.resolve("xiaozhi.txt").toString());
+        new AddCommand(new Todo("return book")).execute(tasks, ui, storage, new CommandHistory());
+        AddCommand deadlineCommand = new AddCommand(new Deadline("return book", LocalDate.of(2019, 12, 2)));
+
+        deadlineCommand.execute(tasks, ui, storage, new CommandHistory());
+
+        assertEquals(2, tasks.size());
+    }
+
+    @Test
+    public void execute_taskAlreadyInListButDone_isStillADuplicate() throws Exception {
+        // Completion status should not let the same task back in through the
+        // front door; only the description (and any dates) matter here.
+        TaskList tasks = new TaskList();
+        Ui ui = new Ui();
+        Storage storage = new Storage(tempDir.resolve("xiaozhi.txt").toString());
+        new AddCommand(new Todo("read book")).execute(tasks, ui, storage, new CommandHistory());
+        tasks.get(0).markAsDone();
+        AddCommand duplicate = new AddCommand(new Todo("read book"));
+
+        assertThrows(XiaoZhiException.class, () -> duplicate.execute(tasks, ui, storage, new CommandHistory()));
     }
 }
