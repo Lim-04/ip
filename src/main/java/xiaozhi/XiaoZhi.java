@@ -71,7 +71,7 @@ public class XiaoZhi {
                 ui.showFarewell();
             }
         } catch (XiaoZhiException e) {
-            commandType = "";
+            commandType = "Error";
             ui.showError(e.getMessage());
         } finally {
             System.setOut(originalOut);
@@ -91,11 +91,14 @@ public class XiaoZhi {
     /**
      * Returns the simple class name of the {@link Command} that produced the
      * most recent {@link #getResponse(String)} reply, e.g. {@code "AddCommand"},
-     * or {@code ""} if that input could not be parsed into a command at all.
-     * Meant for the GUI to pick a bubble style for the reply (see
-     * {@code xiaozhi.gui.DialogBox}).
+     * or {@code "Error"} if that input failed instead -- either because it
+     * could not be parsed into a command at all, or because the resulting
+     * command failed while executing (e.g. an invalid task number). Meant for
+     * the GUI to pick a card style for the reply (see {@code xiaozhi.gui.DialogBox}),
+     * with {@code "Error"} deliberately given a style that stands out from a
+     * normal reply.
      *
-     * @return The simple class name of the most recently executed command, or {@code ""}.
+     * @return The simple class name of the most recently executed command, or {@code "Error"}.
      */
     public String getCommandType() {
         return commandType;
