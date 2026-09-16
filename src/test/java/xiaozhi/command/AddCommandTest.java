@@ -32,8 +32,8 @@ public class AddCommandTest {
         Storage storage = new Storage(tempDir.resolve("xiaozhi.txt").toString());
         AddCommand command = new AddCommand(new Todo("read book"));
 
-        String output = OutputCapture.capture(
-                () -> command.execute(tasks, ui, storage, new CommandHistory()));
+        String output = OutputCapture.capture(() ->
+                command.execute(tasks, ui, storage, new CommandHistory()));
 
         assertEquals(1, tasks.size());
         assertEquals("read book", tasks.get(0).getDescription());

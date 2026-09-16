@@ -35,8 +35,8 @@ public class DeleteCommandTest {
         Storage storage = new Storage(tempDir.resolve("xiaozhi.txt").toString());
         DeleteCommand command = new DeleteCommand(0);
 
-        String output = OutputCapture.capture(
-                () -> command.execute(tasks, ui, storage, new CommandHistory()));
+        String output = OutputCapture.capture(() ->
+                command.execute(tasks, ui, storage, new CommandHistory()));
 
         assertEquals(0, tasks.size());
         assertEquals(
@@ -53,8 +53,8 @@ public class DeleteCommandTest {
         tasks.add(new Todo("read book"));
         DeleteCommand command = new DeleteCommand(4);
 
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> command.execute(tasks, new Ui(), new Storage(tempDir.resolve("xiaozhi.txt").toString()),
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                command.execute(tasks, new Ui(), new Storage(tempDir.resolve("xiaozhi.txt").toString()),
                         new CommandHistory()));
 
         assertEquals("There is no task 5 to speak of. Only 1 task(s) exist; look again before you act.",
@@ -68,8 +68,8 @@ public class DeleteCommandTest {
         tasks.add(new Todo("read book"));
         DeleteCommand command = new DeleteCommand(-1);
 
-        assertThrows(XiaoZhiException.class,
-                () -> command.execute(tasks, new Ui(), new Storage(tempDir.resolve("xiaozhi.txt").toString()),
+        assertThrows(XiaoZhiException.class, () ->
+                command.execute(tasks, new Ui(), new Storage(tempDir.resolve("xiaozhi.txt").toString()),
                         new CommandHistory()));
     }
 

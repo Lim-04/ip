@@ -126,24 +126,24 @@ public class ParserTest {
 
     @Test
     public void parse_deadlineWithOnlyByClause_throwsEmptyDescription() {
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("deadline /by 2019-12-02"));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("deadline /by 2019-12-02"));
 
         assertEquals("The description of a deadline cannot be empty.", thrown.getMessage());
     }
 
     @Test
     public void parse_deadlineWithNoByMarker_throwsWithUsageHint() {
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("deadline return book"));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("deadline return book"));
 
         assertEquals("A deadline needs a /by date. Try: deadline <description> /by <date>", thrown.getMessage());
     }
 
     @Test
     public void parse_deadlineWithBlankByDate_throws() {
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("deadline return book /by "));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("deadline return book /by "));
 
         assertEquals("The /by date of a deadline cannot be empty.", thrown.getMessage());
     }
@@ -175,8 +175,8 @@ public class ParserTest {
 
     @Test
     public void parse_eventWithNoFromMarker_throwsWithUsageHint() {
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("event project meeting"));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event project meeting"));
 
         assertEquals("An event needs a /from time. Try: event <description> /from <start> /to <end>",
                 thrown.getMessage());
@@ -184,8 +184,8 @@ public class ParserTest {
 
     @Test
     public void parse_eventWithNoToMarker_throwsWithUsageHint() {
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("event project meeting /from 2019-08-06"));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event project meeting /from 2019-08-06"));
 
         assertEquals("An event needs a /to time. Try: event <description> /from <start> /to <end>",
                 thrown.getMessage());
@@ -193,8 +193,8 @@ public class ParserTest {
 
     @Test
     public void parse_eventWithInvalidFromDate_throws() {
-        assertThrows(XiaoZhiException.class,
-                () -> Parser.parse("event project meeting /from tomorrow /to 2019-08-07"));
+        assertThrows(XiaoZhiException.class, () ->
+                Parser.parse("event project meeting /from tomorrow /to 2019-08-07"));
     }
 
     // ---------- mark / unmark / delete ----------
@@ -251,8 +251,8 @@ public class ParserTest {
         Command command = Parser.parse("find book");
 
         assertInstanceOf(FindCommand.class, command);
-        String output = OutputCapture.capture(
-                () -> command.execute(tasks, new Ui(), newStorage(), new CommandHistory()));
+        String output = OutputCapture.capture(() ->
+                command.execute(tasks, new Ui(), newStorage(), new CommandHistory()));
         assertEquals(
                 "These are the tasks that echo your search:" + System.lineSeparator()
                         + "1.[T][ ] read book" + System.lineSeparator(),

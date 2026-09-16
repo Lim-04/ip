@@ -40,8 +40,8 @@ public class UnmarkCommandTest {
         Ui ui = new Ui();
         UnmarkCommand command = new UnmarkCommand(0);
 
-        String output = OutputCapture.capture(
-                () -> command.execute(tasks, ui, newStorage(), new CommandHistory()));
+        String output = OutputCapture.capture(() ->
+                command.execute(tasks, ui, newStorage(), new CommandHistory()));
 
         assertFalse(tasks.get(0).isDone());
         assertEquals(
@@ -56,8 +56,8 @@ public class UnmarkCommandTest {
         tasks.add(new Todo("read book"));
         UnmarkCommand command = new UnmarkCommand(4);
 
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> command.execute(tasks, new Ui(), newStorage(), new CommandHistory()));
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                command.execute(tasks, new Ui(), newStorage(), new CommandHistory()));
 
         assertEquals("There is no task 5 to speak of. Only 1 task(s) exist; look again before you act.",
                 thrown.getMessage());

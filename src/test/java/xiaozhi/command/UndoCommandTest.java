@@ -33,8 +33,8 @@ public class UndoCommandTest {
         UndoCommand command = new UndoCommand();
         CommandHistory history = new CommandHistory();
 
-        XiaoZhiException thrown = assertThrows(XiaoZhiException.class,
-                () -> command.execute(new TaskList(), new Ui(),
+        XiaoZhiException thrown = assertThrows(XiaoZhiException.class, () ->
+                command.execute(new TaskList(), new Ui(),
                         new Storage(tempDir.resolve("xiaozhi.txt").toString()), history));
 
         assertEquals("There is nothing left to undo; the past cannot be unmade twice.", thrown.getMessage());
