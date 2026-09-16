@@ -8,20 +8,20 @@ import xiaozhi.util.Dates;
  * A task that must be done by a particular date.
  */
 public class Deadline extends Task {
-    protected LocalDate by;
+    protected LocalDate byDate;
 
     /**
      * Creates a deadline due by the given date.
      *
      * @param description What the deadline is.
-     * @param by Date the deadline is due by.
+     * @param byDate Date the deadline is due by.
      */
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDate byDate) {
         super(description);
-        assert by != null
+        assert byDate != null
                 : "Deadline's by-date should never be null; it is always the result of Dates.parse(), "
                 + "which either returns a valid date or throws.";
-        this.by = by;
+        this.byDate = byDate;
     }
 
     @Override
@@ -31,11 +31,11 @@ public class Deadline extends Task {
 
     @Override
     public String toSaveFormat() {
-        return super.toSaveFormat() + " | " + by;
+        return super.toSaveFormat() + " | " + byDate;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + Dates.format(by) + ")";
+        return "[D]" + super.toString() + " (by: " + Dates.format(byDate) + ")";
     }
 }
