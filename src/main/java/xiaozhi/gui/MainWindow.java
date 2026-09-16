@@ -6,8 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import xiaozhi.XiaoZhi;
@@ -17,10 +16,13 @@ import xiaozhi.XiaoZhi;
  * <p>
  * Displays a scrolling history of dialog boxes above a text field and send
  * button, and forwards each line the user submits to the {@link XiaoZhi}
- * instance injected via {@link #setXiaoZhi(XiaoZhi)}.
+ * instance injected via {@link #setXiaoZhi(XiaoZhi)}. The conversation has
+ * only ever two fixed speakers, so no per-message avatar is shown -- see
+ * {@link DialogBox}.
  */
-public class MainWindow extends AnchorPane {
+public class MainWindow extends BorderPane {
     private static final Duration EXIT_DELAY = Duration.seconds(1.2);
+    private static final double USER_BUBBLE_MAX_WIDTH_FRACTION = 0.7;
 
     @FXML
     private ScrollPane scrollPane;
@@ -32,9 +34,6 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     private XiaoZhi xiaoZhi;
-
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private final Image xiaoZhiImage = new Image(this.getClass().getResourceAsStream("/images/XiaoZhi.png"));
 
     /**
      * Keeps the dialog history scrolled to the newest message as it grows.
@@ -71,9 +70,11 @@ public class MainWindow extends AnchorPane {
 
         String response = xiaoZhi.getResponse(input);
         String commandType = xiaoZhi.getCommandType();
+        DialogBox userDialog = DialogBox.getUserDialog(input);
+        userDialog.capBubbleWidth(dialogContainer.widthProperty(), USER_BUBBLE_MAX_WIDTH_FRACTION);
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getXiaoZhiDialog(response, xiaoZhiImage, commandType)
+                userDialog,
+                DialogBox.getXiaoZhiDialog(response, commandType)
         );
         userInput.clear();
 

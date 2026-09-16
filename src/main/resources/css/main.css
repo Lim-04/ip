@@ -1,35 +1,46 @@
 .root {
-    -fx-background-color: #f4f4f4;
+    /* JavaFX paints later background layers on top, so the solid base comes
+       first and the two aurora glows are layered above it. */
+    -fx-background-color:
+        #1a1330,
+        radial-gradient(center 12% 8%, radius 55%, rgba(124, 58, 237, 0.32) 0%, transparent 70%),
+        radial-gradient(center 88% 94%, radius 55%, rgba(59, 130, 246, 0.28) 0%, transparent 70%);
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
-.text-field {
-    -fx-background-color: white;
-    -fx-background-radius: 20;
-    -fx-border-color: #d0d0d0;
-    -fx-border-radius: 20;
-    -fx-padding: 8 14 8 14;
-    -fx-font-size: 14px;
+/* ---------- Header ---------- */
+
+.header-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.16) transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10 16 10 16;
 }
 
-.button {
-    -fx-background-color: #4a90e2;
+.xz-avatar {
+    -fx-fill: radial-gradient(center 30% 30%, radius 70%, #f0d9ff 0%, #7c3aed 100%);
+    -fx-effect: dropshadow(gaussian, rgba(196, 132, 252, 0.55), 8, 0.4, 0, 0);
+}
+
+.header-title {
     -fx-text-fill: white;
-    -fx-background-radius: 20;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-.button:hover {
-    -fx-background-color: #3a7bc8;
+.header-subtitle {
+    -fx-text-fill: rgba(255, 255, 255, 0.55);
+    -fx-font-size: 10.5px;
 }
 
-.button:pressed {
-    -fx-background-color: #2f66a8;
+/* ---------- Chat area ---------- */
+
+.chat-scroll,
+.chat-scroll .viewport {
+    -fx-background-color: transparent;
 }
 
-.scroll-pane,
-.scroll-pane .viewport {
+.chat-container {
     -fx-background-color: transparent;
 }
 
@@ -38,7 +49,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #cccccc;
+    -fx-background-color: rgba(255, 255, 255, 0.35);
     -fx-background-radius: 1em;
 }
 
@@ -46,4 +57,47 @@
 .scroll-bar .decrement-button {
     -fx-pref-height: 0;
     -fx-opacity: 0;
+}
+
+/* ---------- Input bar ---------- */
+
+.input-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-border-color: rgba(255, 255, 255, 0.16) transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 10 14 10 14;
+}
+
+.input-field {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-background-radius: 18;
+    -fx-border-color: rgba(255, 255, 255, 0.26);
+    -fx-border-radius: 18;
+    -fx-padding: 9 15 9 15;
+    -fx-font-size: 13.5px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.5);
+}
+
+.send-button {
+    -fx-background-color: #8b5cf6;
+    -fx-background-radius: 100;
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-max-width: 38;
+    -fx-max-height: 38;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(196, 132, 252, 0.45), 8, 0.3, 0, 0);
+}
+
+.send-button:hover {
+    -fx-background-color: #9d6ffb;
+}
+
+.send-button:pressed {
+    -fx-background-color: #7c4de0;
+}
+
+.send-icon {
+    -fx-fill: white;
 }

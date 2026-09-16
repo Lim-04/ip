@@ -1,35 +1,31 @@
 package xiaozhi.gui;
 
 import java.io.IOException;
-import java.util.Collections;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableNumberValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
- * A dialog box combining a speaker's avatar and a label of their message.
+ * A dialog box showing one line of the conversation.
  * <p>
- * User messages keep the avatar on the right and the default (blue)
- * bubble style; {@link #getXiaoZhiDialog} mirrors the layout so XiaoZhi's
- * avatar appears on the left with the {@code reply-label} bubble style
- * instead, additionally tinted by the kind of command that produced it
- * (see {@link #changeDialogStyle(String)}).
+ * The chat is deliberately asymmetric, since it is a conversation between
+ * the user and the app, not between two equal speakers: {@link #getUserDialog}
+ * keeps a compact, right-aligned "bubble" for what the user typed, while
+ * {@link #getXiaoZhiDialog} turns the box into a full-width, left-aligned
+ * "card" for XiaoZhi's reply, additionally tinted by the kind of command
+ * that produced it (see {@link #changeDialogStyle(String)}).
  */
 public class DialogBox extends HBox {
     @FXML
     private Label dialog;
-    @FXML
-    private ImageView displayPicture;
 
-    private DialogBox(String text, Image img) {
+    private DialogBox(String text) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -40,30 +36,28 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
-        displayPicture.setImage(img);
     }
 
     /**
-     * Mirrors this dialog box so the avatar appears on the left and the
-     * text on the right, instead of the default right-aligned layout, and
-     * switches its bubble to the {@code reply-label} style.
+     * Turns this dialog box into XiaoZhi's full-width reply card: left-aligned
+     * and grown to fill whatever container it is placed in, instead of the
+     * default compact, right-aligned bubble used for the user's own input.
      */
-    private void flip() {
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        Collections.reverse(tmp);
-        getChildren().setAll(tmp);
+    private void makeXiaoZhiCard() {
         setAlignment(Pos.TOP_LEFT);
-        dialog.getStyleClass().add("reply-label");
+        dialog.getStyleClass().setAll("bot-card");
+        dialog.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(dialog, Priority.ALWAYS);
     }
 
     /**
-     * Tints this dialog box's bubble according to the kind of command that
-     * produced it, e.g. green for a task being added. Commands with no
-     * special styling (list, find, exit, ...) are left with the default
-     * {@code reply-label} look.
+     * Tints this dialog box's card according to the kind of command that
+     * produced it, e.g. green for a task being added, or red for an error so
+     * it stands out from a normal reply. Commands with no special styling
+     * (list, find, exit, ...) are left with the plain {@code bot-card} look.
      *
      * @param commandType Simple class name of the {@code Command} that produced this reply,
-     *         e.g. {@code "AddCommand"}.
+     *         e.g. {@code "AddCommand"}, or {@code "Error"} if the input could not be parsed.
      */
     private void changeDialogStyle(String commandType) {
         switch (commandType) {
@@ -79,35 +73,48 @@ public class DialogBox extends HBox {
             case "UndoCommand":
                 dialog.getStyleClass().add("undo-label");
                 break;
+            case "Error":
+                dialog.getStyleClass().add("error-label");
+                break;
             default:
-                // No special styling for this command type; keep the plain reply-label look.
+                // No special styling for this command type; keep the plain bot-card look.
                 break;
         }
+    }
+
+    /**
+     * Caps how wide this dialog box's bubble may grow, as a fraction of
+     * another region's width, so a user bubble stays a sensible size instead
+     * of stretching edge-to-edge when the window is resized wider.
+     *
+     * @param containerWidth Width to size the cap relative to, e.g. the chat area's own width.
+     * @param fraction Fraction of {@code containerWidth} the bubble may grow to, e.g. {@code 0.7}.
+     */
+    public void capBubbleWidth(ObservableNumberValue containerWidth, double fraction) {
+        dialog.maxWidthProperty().bind(Bindings.multiply(fraction, containerWidth));
     }
 
     /**
      * Creates a dialog box for something the user said.
      *
      * @param text Text to display.
-     * @param img Avatar to display.
-     * @return The user's dialog box, avatar on the right.
+     * @return The user's dialog box, a compact bubble on the right.
      */
-    public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+    public static DialogBox getUserDialog(String text) {
+        return new DialogBox(text);
     }
 
     /**
      * Creates a dialog box for something XiaoZhi said.
      *
      * @param text Text to display.
-     * @param img Avatar to display.
      * @param commandType Simple class name of the {@code Command} that produced this reply,
-     *         used to tint the bubble (see {@link #changeDialogStyle(String)}).
-     * @return XiaoZhi's dialog box, avatar on the left.
+     *         used to tint the card (see {@link #changeDialogStyle(String)}).
+     * @return XiaoZhi's dialog box, a full-width card on the left.
      */
-    public static DialogBox getXiaoZhiDialog(String text, Image img, String commandType) {
-        var db = new DialogBox(text, img);
-        db.flip();
+    public static DialogBox getXiaoZhiDialog(String text, String commandType) {
+        var db = new DialogBox(text);
+        db.makeXiaoZhiCard();
         db.changeDialogStyle(commandType);
         return db;
     }
