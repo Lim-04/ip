@@ -113,22 +113,22 @@ public class XiaoZhi {
     public void run() {
         ui.showBanner();
         ui.showGreeting();
-        boolean isExit = false;
+        boolean shouldExit = false;
         String input = ui.readCommand();
 
-        while (!isExit) {
+        while (!shouldExit) {
             try {
                 Command command = Parser.parse(input);
                 command.execute(tasks, ui, storage, history);
                 if (command.isUndoable()) {
                     history.push(command);
                 }
-                isExit = command.isExit();
+                shouldExit = command.isExit();
             } catch (XiaoZhiException e) {
                 ui.showError(e.getMessage());
             }
 
-            if (!isExit) {
+            if (!shouldExit) {
                 input = ui.readCommand();
             }
         }
