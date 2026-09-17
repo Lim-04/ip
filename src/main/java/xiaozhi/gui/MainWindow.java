@@ -17,7 +17,8 @@ import xiaozhi.XiaoZhi;
  * Displays a scrolling history of dialog boxes above a text field and send
  * button, and forwards each line the user submits to the {@link XiaoZhi}
  * instance injected via {@link #setXiaoZhi(XiaoZhi)}. The conversation has
- * only ever two fixed speakers, so no per-message avatar is shown -- see
+ * only ever two fixed speakers: the user's own lines stay unadorned, while
+ * each of XiaoZhi's replies is shown beside Master Zhi's avatar -- see
  * {@link DialogBox}.
  */
 public class MainWindow extends BorderPane {
