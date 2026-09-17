@@ -91,7 +91,7 @@ public class Parser {
             case EVENT -> new AddCommand(parseEvent(rest));
             case UNDO -> new UndoCommand();
             case BYE -> new ExitCommand();
-            case UNKNOWN -> throw new XiaoZhiException("I have not learned the word \"" + commandWord + "\".");
+            default -> throw new XiaoZhiException("I have not learned the word \"" + commandWord + "\".");
         };
     }
 
