@@ -48,3 +48,7 @@
     -fx-border-width: 1.5;
     -fx-text-fill: #f2e2d8;
 }
+
+.avatar {
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 106, 0.35), 6, 0.3, 0, 0);
+}

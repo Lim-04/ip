@@ -8,8 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.shape.Circle;
 
 /**
  * A dialog box showing one line of the conversation.
@@ -19,11 +22,17 @@ import javafx.scene.layout.Priority;
  * keeps a compact, right-aligned "bubble" for what the user typed, while
  * {@link #getXiaoZhiDialog} turns the box into a full-width, left-aligned
  * "card" for XiaoZhi's reply, additionally tinted by the kind of command
- * that produced it (see {@link #changeDialogStyle(String)}).
+ * that produced it (see {@link #changeDialogStyle(String)}) and preceded by
+ * Master Zhi's avatar (see {@link #showAvatar()}).
  */
 public class DialogBox extends HBox {
+    private static final Image MASTER_ZHI_AVATAR =
+            new Image(DialogBox.class.getResourceAsStream("/images/MasterZhi.png"));
+
     @FXML
     private Label dialog;
+    @FXML
+    private ImageView displayPicture;
 
     private DialogBox(String text) {
         try {
@@ -48,6 +57,20 @@ public class DialogBox extends HBox {
         dialog.getStyleClass().setAll("bot-card");
         dialog.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(dialog, Priority.ALWAYS);
+        showAvatar();
+    }
+
+    /**
+     * Reveals Master Zhi's avatar to the left of the reply card, clipped to a
+     * circle so it matches the rounded look of the rest of the GUI. Hidden
+     * (and unmanaged, so it takes up no space) for the user's own bubble.
+     */
+    private void showAvatar() {
+        displayPicture.setImage(MASTER_ZHI_AVATAR);
+        double radius = displayPicture.getFitWidth() / 2;
+        displayPicture.setClip(new Circle(radius, radius, radius));
+        displayPicture.setVisible(true);
+        displayPicture.setManaged(true);
     }
 
     /**
@@ -110,7 +133,7 @@ public class DialogBox extends HBox {
      * @param text Text to display.
      * @param commandType Simple class name of the {@code Command} that produced this reply,
      *         used to tint the card (see {@link #changeDialogStyle(String)}).
-     * @return XiaoZhi's dialog box, a full-width card on the left.
+     * @return XiaoZhi's dialog box, a full-width card on the left with Master Zhi's avatar.
      */
     public static DialogBox getXiaoZhiDialog(String text, String commandType) {
         var dialogBox = new DialogBox(text);
